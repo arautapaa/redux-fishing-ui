@@ -13,5 +13,12 @@ install:
   - npm install
 
 script:
-  - npm run build-dev
   - npm run build-prod
+
+deploy:
+  provider: s3
+  access_key_id: $AWS_ACCESS
+  secret_access_key: $AWS_SECRET
+  bucket: $S3_BUCKET
+  region: $AWS_REGION
+  local_dir: dist
