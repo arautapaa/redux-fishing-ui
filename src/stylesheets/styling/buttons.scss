@@ -1,0 +1,34 @@
+.btn-group.special {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.special .btn {
+  flex: 2;
+  margin-top:15px;
+  background-color: $blue;
+}
+
+.btn-primary {
+    background-color: $blue;
+    background-image: none;
+
+    &:hover, &:focus, &:selected {
+    	background-color: $turqoise;
+    }
+
+    &.selected-active, &:active {
+    	background-color: $turqoise;
+    		
+    	&:hover, &:focus, &:selected, &:active {
+    		background-color: $turqoise;
+    	}
+    }
+}
+
+
+@media (max-width: 576px) { 
+	.btn-selection {
+		width: 100%;
+	}
+}

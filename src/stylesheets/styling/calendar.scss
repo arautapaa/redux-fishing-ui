@@ -1,0 +1,14 @@
+.selection {
+	padding-top: 27% !important;
+	padding-bottom: 13% !important;
+
+	&.time {
+		background-color: $blue;
+		background-image: url('/media/icons/clock.png');
+
+	}	
+	&.date {
+		background-color: $turqoise;
+		background-image: url('/media/icons/calendar.png');
+	}
+}

@@ -20,8 +20,6 @@ export default class AuthenticationAPI {
 				const cookies = new Cookies();
 
 
-				console.log(credentials)
-
 				if(!credentials.expired) {
 
 					cookies.set('accessKeyId_v2', credentials.accessKeyId, { expires : credentials.expireTime });

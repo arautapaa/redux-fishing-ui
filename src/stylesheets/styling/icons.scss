@@ -1,0 +1,73 @@
+
+.icon-box {
+	padding-top: 66%;
+	padding-bottom: 24%;
+	color: $font-color-white;
+	background-color: $blue;
+	
+	&:first {
+		padding-left: 0;
+	}
+
+	&:last {
+		padding-right: 0;
+	}
+
+	&:hover {
+		background-color: $turqoise;
+	}
+
+	span {
+		padding-bottom: 30%;
+	}
+}
+
+
+.menu-icon-fish {
+	background-image: url("/media/icons/fish.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.menu-icon-new-fish {
+	background-image: url("/media/icons/new_fish.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.menu-icon-place {
+	background-image: url("/media/icons/places.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.menu-icon-settings {
+	background-image: url("/media/icons/settings.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.icon-button {
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.icon {
+	position: absolute;
+	right: 4%;
+	top: 25%;
+	width: 24px;
+	height: 24px;
+}
+
+.icon-up {
+	background-image: url("/media/icons/sort-up.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.icon-down {
+	background-image: url("/media/icons/sort-down.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+}

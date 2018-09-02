@@ -1,0 +1,16 @@
+
+.jumbotron {
+	color: $font-color-white;
+	background-color: $blue;
+	-webkit-clip-path: polygon(0 0, 100% 0, 100% 96%, 0 100%);
+  	clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+}
+
+
+.title-bar {
+	height: 45px;
+	font-size: 28px;
+	background-color: $blue; 
+	margin: 20px 0 20px 0;
+	padding-left: 8px;
+}

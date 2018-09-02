@@ -26,8 +26,6 @@ export default class DataTable extends React.Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		console.log(this.props);
-
 		if(prevProps.objects != this.props.objects) {
 			this.updatePage(1);
 		}

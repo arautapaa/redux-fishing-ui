@@ -18,8 +18,6 @@ export default class LoginPage extends React.Component {
 	}
 
 	responseGoogle(response) {
-		console.log(response);
-
 		const self = this;
 
 		AuthenticationAPI.authenticate(response.getAuthResponse()['id_token']).then((credentials) => {

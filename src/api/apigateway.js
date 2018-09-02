@@ -1,9 +1,10 @@
 import AuthenticationAPI from './authentication';
 import * as EnvironmentConfiguration from '../environment';
+import ApiGateWayFactory from 'aws-api-gateway-client';
 
 export default class APIGateway {
   static getData(path) {
-    return sendRequest(path, "GET", {}); 
+    return APIGateway.sendRequest(path, "GET", {}); 
   }
 
   static sendRequest(path, method, body) {
@@ -11,8 +12,6 @@ export default class APIGateway {
       const API_GATEWAY_URL = EnvironmentConfiguration.API_GATEWAY_URL;
 
       const credentials = AuthenticationAPI.getCredentials();
-
-      let okResponse = false;
 
       const apigClientFactory = ApiGateWayFactory;
 

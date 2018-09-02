@@ -1,0 +1,21 @@
+.data-table {
+	th {
+		background-color: $blue;
+		color: white;
+		&:hover, &.active-sort {
+			background-color: $turqoise;
+			cursor: pointer;
+		}
+
+		&.active-sort {
+			position: relative;
+		}
+	}
+
+	td {
+		color: black;
+	}
+
+	margin-top: 30px;
+	overflow-x: scroll;
+}

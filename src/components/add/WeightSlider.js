@@ -18,7 +18,7 @@ export default class WeightSlider extends React.Component {
 	}
 
 	handleChangeStart() {
-	   console.log('Change event started')
+
 	};
 
   handleChange(value) {
@@ -30,7 +30,7 @@ export default class WeightSlider extends React.Component {
   };
 
   handleChangeComplete () {
-    console.log('Change event completed')
+
   }
 
   componentDidUpdate(prevProps) {
