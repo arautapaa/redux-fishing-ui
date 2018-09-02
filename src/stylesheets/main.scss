@@ -1,0 +1,183 @@
+$blue: #1e3250;
+$turqoise: #19a399;
+$font-color-white: #FFF;
+$common-font: 'Open Sans', sans-serif;
+
+body {
+	font-family: $common-font;
+	color: white;
+}
+
+.jumbotron {
+	color: $font-color-white;
+	background-color: $blue;
+}
+
+.icon-box {
+	padding-top: 66%;
+	padding-bottom: 24%;
+	color: $font-color-white;
+	background-color: $blue;
+	
+	&:first {
+		padding-left: 0;
+	}
+
+	&:last {
+		padding-right: 0;
+	}
+
+	&:hover {
+		background-color: $turqoise;
+	}
+
+	span {
+		padding-bottom: 30%;
+	}
+}
+
+.menu-icon-fish {
+	background-image: url("/media/icons/fish.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.menu-icon-new-fish {
+	background-image: url("/media/icons/new_fish.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.menu-icon-place {
+	background-image: url("/media/icons/places.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.menu-icon-settings {
+	background-image: url("/media/icons/settings.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.icon {
+	position: absolute;
+	right: 4%;
+	top: 25%;
+	width: 24px;
+	height: 24px;
+}
+
+.icon-up {
+	background-image: url("/media/icons/sort-up.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.icon-down {
+	background-image: url("/media/icons/sort-down.png");
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+
+.loader {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  align:center;
+}
+.loader:after {
+  content: " ";
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 5px solid #cef;
+  border-color: #cef transparent #cef transparent;
+  animation: loader 1.2s linear infinite;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.title-bar {
+	height: 45px;
+	font-size: 28px;
+	background-color: $blue; 
+	margin: 20px 0 20px 0;
+	padding-left: 8px;
+}
+
+.dark-text {
+	color: $blue;
+}
+
+.btn-group.special {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.special .btn {
+  flex: 2;
+  margin-top:15px;
+  background-color: $blue;
+}
+
+.btn-primary {
+    background-color: $blue;
+    background-image: none;
+
+    &:hover, &:focus, &:selected {
+    	background-color: $turqoise;
+    }
+
+    &.selected-active, &:active {
+    	background-color: $turqoise;
+    		
+    	&:hover, &:focus, &:selected, &:active {
+    		background-color: $turqoise;
+    	}
+    }
+}
+
+@media (max-width: 576px) { 
+	.btn-selection {
+		width: 100%;
+	}
+}
+
+.data-table {
+	th {
+		background-color: $blue;
+		color: white;
+		&:hover, &.active-sort {
+			background-color: $turqoise;
+			cursor: pointer;
+		}
+
+		&.active-sort {
+			position: relative;
+		}
+	}
+
+	td {
+		color: black;
+	}
+
+	margin-top: 30px;
+	overflow-x: scroll;
+}
+
+.jumbotron {
+	-webkit-clip-path: polygon(0 0, 100% 0, 100% 96%, 0 100%);
+  	clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+}
+
+
