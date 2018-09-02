@@ -47,7 +47,7 @@ module.exports.plugins.push(
 module.exports.plugins.push(new HtmlWebpackPlugin({
     title: 'QA Draught test application',
     // Load a custom template (lodash by default see the FAQ for details)
-    template: 'public/index.html'
+    template: 'public/index-template.html'
   }));
 
 module.exports.plugins.push(new CleanWebpackPlugin(['dist'])),
