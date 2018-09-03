@@ -44,7 +44,7 @@ export default class WeightSelection extends React.Component {
 
 		let defaultWeight = this.props.selectedFish.additionalAttributes.weight.default;
 
-		if(initial) {
+		if(initial && this.props.selectedValue) {
 			defaultWeight = this.props.selectedValue;
 		}
 

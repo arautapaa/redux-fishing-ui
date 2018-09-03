@@ -48,3 +48,12 @@ export function* updateDraught(action) {
     type : 'DRAUGHT_UPDATED'
   });
 }
+
+
+export function* deleteDraught(action) {
+  const update = yield call(DraughtAPI.deleteDraught, action.id);
+
+  yield put({
+    type : 'DRAUGHT_DELETED'
+  });
+}

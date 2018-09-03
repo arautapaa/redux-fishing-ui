@@ -4,11 +4,19 @@ const initialState = {
   saved: false,
   saving: false,
   loading: true,
-  updated: false
+  updated: false,
+  deleted: false,
+  redirect: false
 };
 // users reducer
 export default function draughts(state = initialState, action) {
   switch (action.type) {
+    case 'RESET_REDIRECT':
+      return {...state, redirect: false}
+    case 'DELETE_READY':
+      return {...state, deleted: false, redirect : true}
+    case 'DRAUGHT_DELETED':
+      return {...state, deleted: true}
     case 'DRAUGHTS_LOADING':
       return {...state, loading: true}
     case 'DRAUGHT_ADD':

@@ -27,10 +27,7 @@ export default class DraughtDisplay extends React.Component {
 				sure : true
 			});
 		} else {
-			this.setState({
-				redirect : true,
-				url : "/"
-			})
+			this.props.delete(this.props.draught.id);
 		}
 	}
 

@@ -39,6 +39,7 @@ export class DraughtListPage extends React.Component {
 	}
 
   componentWillMount() {
+    this.props.dispatch({type : 'RESET_REDIRECT'})
     this.props.dispatch({type: 'DRAUGHTS_GET_ALL'});
   }
 
