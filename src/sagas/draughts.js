@@ -13,6 +13,25 @@ export function* getAllDraughts(action) {
   });
 }
 
+export function* getDraught(action) {
+  const draught = yield call(DraughtAPI.getDraught, action.id);
+
+  yield put({
+    type: 'DRAUGHT_ADD',
+    draught: draught
+  })
+}
+
+
+export function* saveNewDraught(action) {
+  const draught = yield call(DraughtAPI.saveDraught, action.draught);
+
+  yield put({
+    type: 'SAVE_DRAUGHT',
+    draught: draught
+  })
+};
+
 export function* getAllSelections(action) {
 	const selections = yield call(DraughtAPI.getAllSelections);
 
@@ -20,4 +39,12 @@ export function* getAllSelections(action) {
 		type : 'SELECTIONS_LIST_SAVE',
 		selections : selections
 	});
+}
+
+export function* updateDraught(action) {
+  const update = yield call(DraughtAPI.updateDraught, action.id, action.data);
+
+  yield put({
+    type : 'DRAUGHT_UPDATED'
+  });
 }

@@ -8,6 +8,9 @@
   margin-top:15px;
   background-color: $blue;
 }
+.btn, .btn:focus, .btn:hover {
+  color: white;
+}
 
 .btn-primary {
     background-color: $blue;
@@ -17,15 +20,11 @@
     	background-color: $turqoise;
     }
 
-    &.selected-active, &:active {
-    	background-color: $turqoise;
-    		
-    	&:hover, &:focus, &:selected, &:active {
-    		background-color: $turqoise;
-    	}
-    }
-}
 
+}
+.selected-active {
+  background-color: $turqoise !important;
+}
 
 @media (max-width: 576px) { 
 	.btn-selection {

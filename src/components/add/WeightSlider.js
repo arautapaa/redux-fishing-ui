@@ -8,10 +8,6 @@ export default class WeightSlider extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			value : 0
-		};
-
 		this.handleChangeStart = this.handleChangeStart.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleChangeComplete = this.handleChangeComplete.bind(this);
@@ -22,10 +18,6 @@ export default class WeightSlider extends React.Component {
 	};
 
   handleChange(value) {
-    this.setState({
-      value: value
-    });
-
     this.props.onValueChange(value, this.props.type);
   };
 
@@ -42,8 +34,6 @@ export default class WeightSlider extends React.Component {
   }
 
   render () {
-    const { value } = this.state
-
     return (
 
       <div className='slider'>
@@ -52,12 +42,12 @@ export default class WeightSlider extends React.Component {
           min={this.props.min}
           max={this.props.max}
           step={this.props.step}
-          value={value}
+          value={this.props.value}
           onChangeStart={this.handleChangeStart}
           onChange={this.handleChange}
           onChangeComplete={this.handleChangeComplete}
         />
-        <div className='value'>{value}</div>
+        <div className='value'>{this.props.value}</div>
       </div>
     )
   }

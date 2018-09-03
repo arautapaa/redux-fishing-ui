@@ -15,7 +15,7 @@ export default class CommonSelection extends React.Component {
 			let className = "btn btn-lg btn-primary";
 
 			if(this.props.selectedItem && this.props.selectedItem.name == item.name) {
-				className += " selected-active";
+				className = "btn btn-lg selected-active";
 			}
 
 			return <button key={index} className={className} onClick={() => {this.props.handleSelect(item, this.props.type)}}>{item.name}</button>

@@ -1,6 +1,23 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 export default class TableDataRow extends React.Component {
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			redirect : false
+		}
+
+		this.move = this.move.bind(this);
+	}
+
+	move(event) {
+		this.setState({
+			redirect : true
+		})
+	}
 
 	render() {
 		const columns = this.props.fields.map((field, index) => {
@@ -18,10 +35,6 @@ export default class TableDataRow extends React.Component {
 				value = this.props.object[field.key];
 			}
 
-
-
-
-
 			if(field.type && field.type == 'date') {
 				let date = new Date(value);
 
@@ -33,8 +46,14 @@ export default class TableDataRow extends React.Component {
 			return <td key={index}>{value}</td>
 		})
 
+		const link = "/draught/" + this.props.object.id;
+
+		if(this.state.redirect) {
+			return <Redirect to={link} />
+		}
+
 		return(
-			<tr>
+			<tr onClick={this.move}>
 				{columns}
 			</tr>
 		)

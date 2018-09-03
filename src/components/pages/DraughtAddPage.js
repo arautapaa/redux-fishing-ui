@@ -1,14 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import DataTable from '../common/table/DataTable';
 import LoadingIndicator from '../common/LoadingIndicator';
 import Header from '../common/Header';
 import CommonSelection from '../add/CommonSelection';
 import WeightSelection from '../add/WeightSelection';
 import TimeSelection from '../add/TimeSelection';
+import AdditionalAttributeSelection from '../add/AdditionalAttributeSelection';
 import TimeSelectionModal from '../add/TimeSelectionModal';
 import Calendar from 'react-calendar';
+import SuccessfulDraughtAdd from '../add/SuccessfulDraughtAdd';
+import DataSelection from '../add/DataSelection';
+
+import { Redirect } from 'react-router-dom';
 
 // Home page component
 export class DraughtAddPage extends React.Component {
@@ -16,29 +21,59 @@ export class DraughtAddPage extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			fish : null,
-			gear : null,
-			place : null,
-			fisher : null,
-			weight: null,
-      catchTime: new Date(),
-      timeModal : {
-        show : false,
-        type : null
-      }
-		};
-
-
+    this.state = {
+      savedEntry : {},
+      savedState : {}
+    }
 
 		this.handleSelect = this.handleSelect.bind(this);
     this.handleTimeSelect = this.handleTimeSelect.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.onTimeChange = this.onTimeChange.bind(this);
+    this.addAttribute = this.addAttribute.bind(this);
+    this.onAttributeChange = this.onAttributeChange.bind(this);
+    this.removeAttribute = this.removeAttribute.bind(this);
+
+    this.onSelectNew = this.onSelectNew.bind(this);
+    this.save = this.save.bind(this);
+    this.update = this.update.bind(this);
 	}
 
   componentWillMount() {
-    this.props.dispatch({type: 'SELECTIONS_GET_ALL'});
+    this.props.dispatch({ type: 'SELECTIONS_GET_ALL'});
+    this.props.dispatch({ type : 'COPY_NEW_DRAUGHT'});
+
+    if(this.props.match && this.props.match.params.id) {
+      this.props.dispatch({type : 'GET_DRAUGHT', id :  this.props.match.params.id})
+    }
+  }
+
+  componentDidUpdate() {
+    if(this.props.draughtToEdit.id && !this.state.savedState.id) {
+      const savedState = this.convertToState(this.props.draughtToEdit);
+
+      this.setState({
+        savedState : savedState,
+        savedData : this.props.draughtToEdit
+      })
+    }
+  }
+
+  convertToState(draught) {
+    const state = {...draught,
+      fish : this.getSelectionByName('fish', draught.fish),
+      gear : this.getSelectionByName('gear', draught.gear),
+      place : draught.place,
+      fisher : this.getSelectionByName('fisher', draught.fisher),
+      catchTime : new Date(draught.catchTime),
+      weight: draught.weight
+    }
+
+    return state;
+  }
+
+  getSelectionByName(type, name) {
+    return this.props.choices.selections[type].find(x => x.name == name)
   }
 
     handleTimeSelect(type) {
@@ -76,42 +111,107 @@ export class DraughtAddPage extends React.Component {
       })
     }
 
+    onAttributeChange(attribute) {
+      const attributes = this.state.additionalAttributes.slice();
+
+      attributes[attribute.index] = {
+        name : attribute.name,
+        value : attribute.value
+      }
+
+      this.setState({
+        additionalAttributes : attributes
+      })
+    }
+    
+    addAttribute(attribute) {
+      const attributes = this.state.additionalAttributes.slice();
+
+      attributes.push(attribute);
+
+      this.setState({
+        additionalAttributes : attributes
+      })
+    }
+
+    removeAttribute(index) {
+      const attributes = this.state.additionalAttributes.slice();
+
+      attributes.splice(index, 1);
+
+      this.setState({
+        additionalAttributes : attributes
+      })
+    }
+
+    onSelectNew() {
+      this.props.dispatch({ type : 'COPY_NEW_DRAUGHT'});
+    }
+
+    update(state, id, data) {
+        this.setState({
+          savedEntry : data,
+          savedState : state
+        });
+
+
+        this.props.dispatch({ type : 'SAVING_DRAUGHT' });
+        this.props.dispatch({ type : 'UPDATE_DRAUGHT', id : id, data : data})
+
+
+    }
+
+    save(state, data) {      
+      this.setState({
+        savedEntry : data,
+        savedState : state
+      });
+
+      this.props.dispatch({ type : 'SAVING_DRAUGHT' });
+      this.props.dispatch({ type : 'SAVE_NEW_DRAUGHT', draught : data});
+    }
+
   	render() {
-  		if(!this.props.choices || !this.props.choices.selections) {
-  			return <LoadingIndicator />
+      let content = <LoadingIndicator />
+
+      if(this.props.draughts.updated && this.props.match && this.props.match.params.id) {
+        const toLink = "/draught/" + this.props.match.params.id;
+        this.props.dispatch({ type : 'UPDATE_COMPLETE'})
+        return <Redirect to={toLink} />
+      }
+
+  		if(this.props.choices && this.props.choices.selections && !this.props.draughts.saving) {
+  			content = <DataSelection savedState={this.state.savedState} choices={this.props.choices} save={this.save} update={this.update} />
   		}
 
-      const weightSelection = this.state.fish ? <WeightSelection type="weight"  selectedValue={this.state.weight} handleSelect={this.handleSelect}  title="PAINO" selectedFish={this.state.fish}/> : null;
-
-  		return(
+      if(this.props.draughts.saved) {
+        content = <SuccessfulDraughtAdd onSelectNew={this.onSelectNew}/>
+      }
+  		
+      return(
   			<div>
           <Header />,
           <Grid>
-    				<h1 className="text-center dark-text">Uusi saalis</h1>
-    				<CommonSelection type="fish" 	selectedItem={this.state.fish}		handleSelect={this.handleSelect}	title="KALA" items={this.props.choices.selections.fish} />
-    				<CommonSelection type="place" 	selectedItem={this.state.place}		handleSelect={this.handleSelect}	title="PAIKKA" items={this.props.choices.places} />
-    				<CommonSelection type="gear" 	selectedItem={this.state.gear}		handleSelect={this.handleSelect}	title="VÄLINE" items={this.props.choices.selections.gear} />
-    				<CommonSelection type="fisher" 	selectedItem={this.state.fisher}	handleSelect={this.handleSelect}	title="KALASTAJA" items={this.props.choices.selections.fisher} />
-     			  {weightSelection}
-            <TimeSelection selectedTime={this.state.catchTime} onTimeSelect={this.handleTimeSelect}/>
-            <TimeSelectionModal 
-              show={this.state.timeModal.show}
-              type={this.state.timeModal.type}
-              close={this.closeModal}
-              onTimeChange={this.onTimeChange}
-              selectedTime={this.state.catchTime}
-            />
+            {content}
           </Grid>
-
         </div>
   		);
 	}
 }
 
 // export the connected class
-function mapStateToProps(state) {
+function mapStateToProps(state, properties) {
+
+  let draughtToEdit = {}
+
+  if(properties.match && properties.match.params.id) {
+    draughtToEdit = state.draughts.draughts.find(x => x.id == properties.match.params.id) || {};
+  }
+
   return {
     choices: state.selections || {},
+    draughts : state.draughts || {},
+    draughtToEdit : draughtToEdit
   };
 }
 export default connect(mapStateToProps)(DraughtAddPage);

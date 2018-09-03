@@ -39,6 +39,27 @@ export default class DraughtAPI {
   	});
   }
 
+  static saveDraught(draught) {
+    return APIGateway.sendRequest("/draughts", "POST", draught);
+  }
+
+  static deleteDraught(id) {
+    return APIGateway.sendRequest("/draughts/" + id, "DELETE", {});
+  }
+
+  static getDraught(id) {
+    return new Promise((resolve) => {
+      APIGateway.getData("/draughts/" + id).then((draught) => {
+        APIGateway.getData('/places/' + draught.placeId).then((place) => {
+          draught.place = place;
+
+          resolve(draught);
+        })
+      });
+    })
+
+  }
+
   // get a list of draughts
   static getDraughtList() {
     return APIGateway.getData("/draughts");
@@ -50,5 +71,9 @@ export default class DraughtAPI {
 
   static getSelections() {
   	return APIGateway.getData("/selections");
+  }
+
+  static updateDraught(id, draught) {
+    return APIGateway.sendRequest('/draughts/' + id, 'PUT', draught);
   }
 }

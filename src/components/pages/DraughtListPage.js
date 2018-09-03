@@ -35,12 +35,12 @@ export class DraughtListPage extends React.Component {
       key : "place.name"
     }];
 
-    if(!this.props.draughts || Object.keys(this.props.draughts).length == 0) {
-      props.dispatch({type: 'DRAUGHTS_GET_ALL'});
-    }
-
 		this.handleHeaderClick = this.handleHeaderClick.bind(this);
 	}
+
+  componentWillMount() {
+    this.props.dispatch({type: 'DRAUGHTS_GET_ALL'});
+  }
 
 	handleHeaderClick(key, desc) {
     this.fields.map((item) => {
@@ -56,29 +56,31 @@ export class DraughtListPage extends React.Component {
 
   
   	render() {
-  		if(!this.props.draughts || Object.keys(this.props.draughts).length == 0) {
-  			return(
-  				<LoadingIndicator />
-  			);
-  		} else {
-  			return(
-          <div>
-            <Header />
-            <Grid>
-  				    <DataTable fields={this.fields} objects={this.props.draughts} handleHeaderClick={this.handleHeaderClick}/>
-  	   		  </Grid>
-          </div>
-        );
-  		}
 
+      let content = <LoadingIndicator />
 
-	}
+  		if(!this.props.fetching) {
+        content = <DataTable fields={this.fields} objects={this.props.draughts.draughts} handleHeaderClick={this.handleHeaderClick}/>
+  		} 
+  		
+      return(
+        <div>
+          <Header />
+          <Grid>
+            {content}
+  	   		</Grid>
+        </div>
+      );
+  	}
 }
 
 // export the connected class
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
+  let loading = state.draughts.loading;
+
   return {
     draughts: state.draughts || [],
+    fetching : loading,
   };
 }
 export default connect(mapStateToProps)(DraughtListPage);

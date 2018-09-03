@@ -14,23 +14,25 @@ export default class WeightSelection extends React.Component {
 		this.getInitialValue = this.getInitialValue.bind(this);
 	
 		this.state = {
-			kg : this.getInitialValue('kg'),
-			g : this.getInitialValue('g')
+			kg : this.getInitialValue('kg', true),
+			g : this.getInitialValue('g', true)
 		};
+
+		this.props.handleSelect(this.getTotal(), 'weight');
 	}
 
 	onValueChange(value, type) {
 		this.setState({
 			[type] : value
 		});
+
+		this.props.handleSelect(this.getTotal(), 'weight');
 	}
 
 	componentDidUpdate(prevProps){
-		if(prevProps.selectedFish != this.props.selectedFish) {
-			this.setState({
-				kg : this.getInitialValue('kg'),
-				g : this.getInitialValue('g')
-			})
+		if(!prevProps.selectedFish || prevProps.selectedFish != this.props.selectedFish) {
+			this.onValueChange(this.getInitialValue('kg'), 'kg');
+			this.onValueChange(this.getInitialValue('g'), 'g');	
 		}
 	}
 
@@ -38,8 +40,13 @@ export default class WeightSelection extends React.Component {
 		return this.state.kg * 1000 + this.state.g;
 	}
 
-	getInitialValue(type) {
-		const defaultWeight = this.props.selectedFish.additionalAttributes.weight.default
+	getInitialValue(type, initial = false) {
+
+		let defaultWeight = this.props.selectedFish.additionalAttributes.weight.default;
+
+		if(initial) {
+			defaultWeight = this.props.selectedValue;
+		}
 
 		if(type == 'g') {
 			return defaultWeight - (parseInt(defaultWeight / 1000) * 1000);
@@ -59,10 +66,10 @@ export default class WeightSelection extends React.Component {
 			<Row>
 				<Col sm={12}>
 					<TitleBar title={this.props.title}/>
-					<WeightSlider onValueChange={this.onValueChange} initialValue={this.getInitialValue('kg')} type="kg" min={min} max={max} step={1} label="Kg: "/>
-					<WeightSlider onValueChange={this.onValueChange} initialValue={this.getInitialValue('g')} min={0} max={1000} step={step} type="g" label="G: "/>
+					<WeightSlider onValueChange={this.onValueChange} value={this.state.kg} type="kg" min={min} max={max} step={1} label="Kg: "/>
+					<WeightSlider onValueChange={this.onValueChange} value={this.state.g} min={0} max={1000} step={step} type="g" label="G: "/>
 					<div className="col-sm-2 col-sm-offset-5 text-center">
-						<button className="btn btn-lg btn-info">
+						<button className="btn btn-lg btn-light dark-text">
 							{this.getTotal()}g
 						</button>
 					</div>

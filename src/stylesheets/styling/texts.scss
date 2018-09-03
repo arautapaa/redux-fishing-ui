@@ -1,3 +1,13 @@
 .dark-text {
 	color: $blue;
 }
+
+.red-text {
+	color: $red;
+}
+
+@media(max-width: 768px) {
+	.xs-text-center {
+		text-align:center;
+	}
+}
