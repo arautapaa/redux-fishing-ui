@@ -12,11 +12,17 @@ export default class MenuIcon extends React.Component {
 			classValue += " menu-icon-" + icon;
 		}
 
+		if(this.props.active) {
+			classValue += " active";
+		}
+
 		return(
 			<Col xs={12} sm={6} md={3}>
-				<div className={classValue}>
-					<Link to={this.props.url}>{this.props.text}</Link>		
-				</div>
+				<Link to={this.props.url}>
+					<div className={classValue}>
+						{this.props.text}		
+					</div>
+				</Link>
 			</Col>
 		)
 	}

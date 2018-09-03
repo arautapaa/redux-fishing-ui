@@ -48,11 +48,15 @@ export default class DraughtDisplay extends React.Component {
 		}
 
 		return(
-			<div className="dark-text xs-text-center">
-				<CommonDraughtDataDisplay draught={draught}/>
-				<PlaceDisplay place={draught.place} /> 
-				<WeatherDisplay weather={draught.weather}/>
-				<AdditionalInfoDisplay additionalAttributes={draught.additionalAttributes} />
+			<div className="dark-text force-text-center">
+				<Row>
+					<Col xs={12} sm={6} smOffset={3} md={4} mdOffset={4} lg={2} lgOffset={5}>
+						<CommonDraughtDataDisplay draught={draught}/>
+						<PlaceDisplay place={draught.place} /> 
+						<WeatherDisplay weather={draught.weather}/>
+						<AdditionalInfoDisplay additionalAttributes={draught.additionalAttributes} />
+		        	</Col>
+		        </Row>
 		        <Row className="margin-top-30">
 		            <Col xs={12} sm={3} smOffset={3}>
 		              <Button bsSize="large" bsStyle="primary" className="btn-block" onClick={this.clickEdit}>

@@ -1,0 +1,13 @@
+.login-page {
+	background-image: url('/media/images/bg.png');
+	height: 100%;
+
+	.login-container {
+		padding-top: 25%;
+		padding-bottom: 25%;
+	}
+
+	.google-login-button {
+		background-color: $turqoise;
+	}
+}

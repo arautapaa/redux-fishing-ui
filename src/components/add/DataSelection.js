@@ -154,6 +154,7 @@ export default class DataSelection extends React.Component {
         fish : this.state.fish.name,
         gear : this.state.gear.name,
         placeId : this.state.place.id,
+        place : this.state.place,
         fisher : fisher,
         weight: this.state.weight,
         catchTime : this.state.catchTime.toISOString(),

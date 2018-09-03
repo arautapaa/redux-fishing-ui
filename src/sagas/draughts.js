@@ -42,10 +42,11 @@ export function* getAllSelections(action) {
 }
 
 export function* updateDraught(action) {
-  const update = yield call(DraughtAPI.updateDraught, action.id, action.data);
+  const updated = yield call(DraughtAPI.updateDraught, action.id, action.data);
 
   yield put({
-    type : 'DRAUGHT_UPDATED'
+    type : 'DRAUGHT_UPDATED',
+    draught : {...updated, id : action.id} 
   });
 }
 

@@ -4,6 +4,7 @@ import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 import { MAX_SIZE } from '../../../constants/paging';
 import PaginationButtons from '../../pagination/PaginationButtons';
+import DataTableDisplay from './DataTableDisplay';
 
 export default class DataTable extends React.Component {
 
@@ -61,12 +62,7 @@ export default class DataTable extends React.Component {
 
 		return(
 			<div>
-				<table className="data-table table table-bordered">
-					<thead>
-						<TableHeader fields={this.props.fields} handleHeaderClick={this.handleHeaderClick}/>
-					</thead>
-					<TableBody fields={this.props.fields} objects={this.state.objects} />
-				</table>
+				<DataTableDisplay fields={this.props.fields} handleHeaderClick={this.handleHeaderClick} objects={this.state.objects}/>
 				<div className="pull-right">
 					{pagination}
 				</div>

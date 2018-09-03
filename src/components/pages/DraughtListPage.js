@@ -66,7 +66,7 @@ export class DraughtListPage extends React.Component {
   		
       return(
         <div>
-          <Header />
+          <Header {...this.props} />
           <Grid>
             {content}
   	   		</Grid>

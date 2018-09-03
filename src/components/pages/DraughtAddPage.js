@@ -43,7 +43,7 @@ export class DraughtAddPage extends React.Component {
     this.props.dispatch({ type: 'SELECTIONS_GET_ALL'});
     this.props.dispatch({ type : 'COPY_NEW_DRAUGHT'});
 
-    if(this.props.match && this.props.match.params.id) {
+    if(this.props.match && this.props.match.params.id && (!this.props.draughtToEdit || Object.keys(this.props.draughtToEdit).length == 0)) {
       this.props.dispatch({type : 'GET_DRAUGHT', id :  this.props.match.params.id})
     }
   }
@@ -154,11 +154,8 @@ export class DraughtAddPage extends React.Component {
           savedState : state
         });
 
-
         this.props.dispatch({ type : 'SAVING_DRAUGHT' });
         this.props.dispatch({ type : 'UPDATE_DRAUGHT', id : id, data : data})
-
-
     }
 
     save(state, data) {      
@@ -190,7 +187,7 @@ export class DraughtAddPage extends React.Component {
   		
       return(
   			<div>
-          <Header />,
+          <Header {...this.props}/>,
           <Grid>
             {content}
           </Grid>

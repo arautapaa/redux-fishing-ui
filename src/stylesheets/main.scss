@@ -6,13 +6,24 @@
 @import 'styling/header';
 @import 'styling/icons';
 @import 'styling/loader';
+@import 'styling/login';
 
 @import 'styling/tables';
 @import 'styling/texts';
 
-body {
+html,body {
 	font-family: $common-font;
 	color: white;
+
+	height: 100%;
+}
+
+#app {
+	& > div {
+		height: 100%;
+	}
+
+	height: 100%;
 }
 
 

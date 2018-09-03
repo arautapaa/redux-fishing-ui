@@ -17,7 +17,9 @@ class DraughtEntryPage extends React.Component {
 
 	componentWillMount() {
 		const id = this.props.match.params.id;
-		this.props.dispatch({type : 'GET_DRAUGHT', id : id})
+		if(!this.props.draught || Object.keys(this.props.draught).length == 0) { 
+			this.props.dispatch({type : 'GET_DRAUGHT', id : id})
+		}
 	}
 
 	componentDidUpdate(prevProps) {
@@ -43,7 +45,7 @@ class DraughtEntryPage extends React.Component {
 
 		return(
 			<div>
-				<Header />
+				<Header {...this.props}/>
 				<Grid>
 					<Row>
 						<Col xs={12}>

@@ -5,6 +5,23 @@
 .red-text {
 	color: $red;
 }
+.force-text-center {
+	* {
+		text-align:center !important;
+	}
+
+	dd {
+		margin-left: 0;
+	}
+}
+
+dt {
+	font-size: 15pt;
+}
+
+dd {
+	font-size: 13pt;
+}
 
 @media(max-width: 768px) {
 	.xs-text-center {

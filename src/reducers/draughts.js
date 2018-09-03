@@ -26,7 +26,11 @@ export default function draughts(state = initialState, action) {
     case 'SAVING_DRAUGHT':
       return {...state, saving : true}
     case 'DRAUGHT_UPDATED':
-      return {...state, updated : true}
+      const draughts = state.draughts.map(draught =>
+        draught.id == action.draught.id ? {...action.draught} : draught
+      );
+
+      return {...state, draughts : draughts, updated : true}
     case 'UPDATE_COMPLETE':
       return {...state, updated : false}
     case 'SAVE_DRAUGHT':

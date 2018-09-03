@@ -46,7 +46,7 @@ export default class TimeSelectionModal extends React.Component {
       <Modal show={show}>
         <Modal.Header>
           <Modal.Title className="dark-text">
-            Change time
+            Muuta ajankohtaa
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -54,7 +54,6 @@ export default class TimeSelectionModal extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button bsStyle="default" onClick={close}>Close</Button>
-          <Button bsStyle="primary" onClick={close}>Save</Button>
         </Modal.Footer>
       </Modal>
     );
