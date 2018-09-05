@@ -31,7 +31,7 @@ export default class CommonSelectionModal extends React.Component {
 	      		<input type="text" className="form-control" onChange={(event) => this.setState({ value : event.target.value })} />
 	        </Modal.Body>
 	        <Modal.Footer>
-	          <Button bsStyle="default" onClick={this.onClose}>Close</Button>
+	          <Button bsStyle="primary" onClick={this.onClose}>Tallenna ja sulje</Button>
 	        </Modal.Footer>
 	      </Modal>
 		)
