@@ -8,11 +8,16 @@ export default function selections(state = initState, action) {
     case 'SELECTIONS_LIST_SAVE':
       return action.selections;
     case 'ADD_SELECTION': 
-      const selections = state;
+      let selections = {...state.selections};
 
-      selections[action.selection.type].push(action.selection);
+	  const selectionList = selections[action.selection.type].slice();
 
-      return selections;
+	  selectionList.push(action.selection);
+
+	  selections[action.selection.type] = selectionList;
+
+
+      return {...state, selections : selections};
     default:
       return state;
   }
