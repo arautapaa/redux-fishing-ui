@@ -2,6 +2,7 @@ import { takeLatest } from "redux-saga";
 import { fork } from "redux-saga/effects";
 import { getAllDraughts, getAllSelections, saveNewDraught, getDraught, updateDraught, deleteDraught } from './draughts.js';
 import { getPlaces, savePlace } from './places.js';
+import { addSelection } from './selections.js';
 
 // main saga generators
 export function* sagas() {
@@ -13,6 +14,7 @@ export function* sagas() {
   		fork(takeLatest, 'UPDATE_DRAUGHT', updateDraught),
   		fork(takeLatest, 'DELETE_DRAUGHT', deleteDraught),
   		fork(takeLatest, 'GET_PLACES', getPlaces),
-  		fork(takeLatest, 'SAVE_PLACE', savePlace)
+  		fork(takeLatest, 'SAVE_PLACE', savePlace),
+      fork(takeLatest, 'SAVE_SELECTION', addSelection)
   	]
   }

@@ -11,6 +11,7 @@ export default class TitleBar extends React.Component {
 		return(
 			<div className="title-bar">
 				{this.props.title}
+				{this.props.children}
 			</div>
 		)
 	}

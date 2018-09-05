@@ -37,6 +37,7 @@ export class DraughtAddPage extends React.Component {
     this.onSelectNew = this.onSelectNew.bind(this);
     this.save = this.save.bind(this);
     this.update = this.update.bind(this);
+    this.addSelection = this.addSelection.bind(this);
 	}
 
   componentWillMount() {
@@ -168,6 +169,10 @@ export class DraughtAddPage extends React.Component {
       this.props.dispatch({ type : 'SAVE_NEW_DRAUGHT', draught : data});
     }
 
+    addSelection(selection) { 
+      this.props.dispatch({type : 'SAVE_SELECTION', selection : selection });
+    }
+    
   	render() {
       let content = <LoadingIndicator />
 
@@ -178,7 +183,7 @@ export class DraughtAddPage extends React.Component {
       }
 
   		if(this.props.choices && this.props.choices.selections && !this.props.draughts.saving) {
-  			content = <DataSelection savedState={this.state.savedState} choices={this.props.choices} save={this.save} update={this.update} />
+  			content = <DataSelection onSelectionAdd={this.addSelection} savedState={this.state.savedState} choices={this.props.choices} save={this.save} update={this.update} />
   		}
 
       if(this.props.draughts.saved) {

@@ -8,6 +8,7 @@ import WeightSelection from '../add/WeightSelection';
 import TimeSelection from '../add/TimeSelection';
 import AdditionalAttributeSelection from '../add/AdditionalAttributeSelection';
 import TimeSelectionModal from '../add/TimeSelectionModal';
+import CommonSelectionModal from '../add/CommonSelectionModal';
 import Calendar from 'react-calendar';
 import SuccessfulDraughtAdd from '../add/SuccessfulDraughtAdd';
 import { Redirect } from 'react-router-dom';
@@ -18,7 +19,7 @@ export default class DataSelection extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {...props.savedState, timeModal : {show: false, type :null}, errorMessage:null, sure : false, redirect : false }
+    this.state = {...props.savedState, selectionModal : {show: false, type : null},  timeModal : {show: false, type :null}, errorMessage:null, sure : false, redirect : false }
 
     if(!this.state.additionalAttributes) {
       this.state.additionalAttributes = [];
@@ -38,6 +39,8 @@ export default class DataSelection extends React.Component {
 
     this.save = this.save.bind(this);
     this.redirect = this.redirect.bind(this);
+    this.handleSelectionAddClick = this.handleSelectionAddClick.bind(this);
+    this.handleSelectionAdd = this.handleSelectionAdd.bind(this);
   }
 
   componentDidMount() {
@@ -171,6 +174,29 @@ export default class DataSelection extends React.Component {
     }
   }
 
+  handleSelectionAdd(type, value) {
+    const modal = this.state.selectionModal;
+
+    modal.show = false;
+
+    this.setState({
+      selectionModal : modal      
+    })
+
+    this.props.onSelectionAdd({type : type, name : value});
+  }
+
+  handleSelectionAddClick(type) {
+    const modal = this.state.selectionModal;
+    
+    modal.show = true;
+    modal.type = type;
+
+    this.setState({
+      modal : modal
+    })
+  }
+
   render() {
     const weightSelection = this.state.fish ? <WeightSelection type="weight"  selectedValue={this.state.weight} handleSelect={this.handleSelect}  title="PAINO" selectedFish={this.state.fish}/> : null;
     const errorMessage = this.state.errorMessage ? <h4 className="text-center red-text">{this.state.errorMessage}</h4> : null
@@ -187,8 +213,8 @@ export default class DataSelection extends React.Component {
         {errorMessage}
         <CommonSelection type="fish"  selectedItem={this.state.fish}    handleSelect={this.handleSelect}  title="KALA" items={this.props.choices.selections.fish} />
         <CommonSelection type="place"   selectedItem={this.state.place}   handleSelect={this.handleSelect}  title="PAIKKA" items={this.props.choices.places} />
-        <CommonSelection type="gear"  selectedItem={this.state.gear}    handleSelect={this.handleSelect}  title="VÄLINE" items={this.props.choices.selections.gear} />
-        <CommonSelection type="fisher"  selectedItem={this.state.fisher}  handleSelect={this.handleSelect}  title="KALASTAJA" items={this.props.choices.selections.fisher} />
+        <CommonSelection type="gear"  selectedItem={this.state.gear}    handleSelect={this.handleSelect}  title="VÄLINE" items={this.props.choices.selections.gear} onAddClick={this.handleSelectionAddClick}/>
+        <CommonSelection type="fisher"  selectedItem={this.state.fisher}  handleSelect={this.handleSelect}  title="KALASTAJA" items={this.props.choices.selections.fisher} onAddClick={this.handleSelectionAddClick}/>
         {weightSelection}
         <TimeSelection selectedTime={this.state.catchTime} onTimeSelect={this.handleTimeSelect}/>
         <TimeSelectionModal 
@@ -197,6 +223,11 @@ export default class DataSelection extends React.Component {
           close={this.closeModal}
           onTimeChange={this.onTimeChange}
           selectedTime={this.state.catchTime}
+        />
+        <CommonSelectionModal
+          show={this.state.selectionModal.show}
+          type={this.state.selectionModal.type}
+          close={this.handleSelectionAdd}
         />
 
         <AdditionalAttributeSelection 
