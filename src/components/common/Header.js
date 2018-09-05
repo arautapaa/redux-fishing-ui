@@ -18,8 +18,6 @@ export default class Header extends React.Component {
 			text : "UUSI SAALIS", icon : 'new-fish', url : '/new'
 		}, {
 			text : 'PAIKAT', icon: 'place', url : '/places'
-		}, {
-			text : 'ASETUKSET', icon : 'settings', url : '/settings'
 		}];
 
 		const menuIcons = menuItems.map((item, index) => {
@@ -33,7 +31,11 @@ export default class Header extends React.Component {
 				</div>
 				<Grid>
 					<Row>
-						{menuIcons}
+						<Col xs={12}>
+							<div className="flex-row flex-center">
+								{menuIcons}
+							</div>
+						</Col>
 					</Row>
 				</Grid>
 			</header>

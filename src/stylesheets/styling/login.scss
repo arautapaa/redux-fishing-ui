@@ -1,13 +1,37 @@
 .login-page {
-	background-image: url('/media/images/bg.png');
+	position: relative;
+
+	background-color: $blue;
+	/*background-image: url("/media/images/bg.png");
+*/
 	height: 100%;
 
+	.login-header {
+		padding-top: 10%;
+	}
+
+	.login-logo {
+		background-color: $turqoise;
+		height: 180px;
+		width: 180px;
+		margin: 0 auto;
+	  	border-radius: 50%;
+	  	display: block;
+	  	background-image: url("/media/icons/logo.png");
+	  	background-size: 60%;
+	  	background-repeat: no-repeat;
+	  	background-position: center;
+	  	z-index: 100;
+	}
+
 	.login-container {
-		padding-top: 25%;
-		padding-bottom: 25%;
+		height: 75%;
+		padding-top: 50px;
+		z-index: -100;
 	}
 
 	.google-login-button {
-		background-color: $turqoise;
+		background-color: $turqoise;  
+
 	}
 }

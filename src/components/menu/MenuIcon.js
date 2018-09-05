@@ -17,13 +17,11 @@ export default class MenuIcon extends React.Component {
 		}
 
 		return(
-			<Col xs={12} sm={6} md={3}>
-				<Link to={this.props.url}>
-					<div className={classValue}>
-						{this.props.text}		
-					</div>
-				</Link>
-			</Col>
+			<Link className="flex-link" to={this.props.url}>
+				<div className={classValue}>
+					{this.props.text}		
+				</div>
+			</Link>
 		)
 	}
 }

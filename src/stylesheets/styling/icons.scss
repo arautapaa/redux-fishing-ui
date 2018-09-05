@@ -4,6 +4,8 @@
 	padding-bottom: 24%;
 	color: $font-color-white;
 	background-color: $blue;
+
+    background-size: 24px;
 	
 	&:first {
 		padding-left: 0;
@@ -12,6 +14,8 @@
 	&:last {
 		padding-right: 0;
 	}
+
+	white-space: nowrap;
 
 	&:hover, &.active {
 		background-color: $turqoise;

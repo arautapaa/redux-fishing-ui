@@ -37,19 +37,27 @@ export default class LoginPage extends React.Component {
 	render() {
 		return(
 			<div className="login-page">
+
+				<header className="login-header">
+					<div className="login-logo">
+					</div>
+				</header>
+
 				<Grid>
 					<div className="login-container">
-						<h1 className="text-center">KALAKIRJA</h1>
 						{this.renderRedirect()}
 						<Row>
-							<Col xs={2} xsOffset={5}>
-								<GoogleLogin
-								className="btn btn-lg google-login-button"
-							    clientId={EnvironmentConfiguration.GOOGLE_CLIENT_ID}
-							    buttonText="Kirjaudu sisään"
-							    onSuccess={this.responseGoogle}
-							    onFailure={this.responseGoogle}
-								/>
+							<Col xs={8} xsOffset={2} sm={4} smOffset={4} md={4} mdOffset={4} >
+								<div className="flex display-center">
+									<h1 className="text-center">KALAKIRJA</h1>
+									<GoogleLogin
+										className="btn btn-lg google-login-button"
+									    clientId={EnvironmentConfiguration.GOOGLE_CLIENT_ID}
+									    buttonText="Kirjaudu sisään"
+									    onSuccess={this.responseGoogle}
+									    onFailure={this.responseGoogle}
+									/>
+								</div>
 							</Col>
 						</Row>
 					</div>

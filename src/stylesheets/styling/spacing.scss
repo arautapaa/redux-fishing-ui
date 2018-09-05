@@ -10,3 +10,45 @@
 .spacy-glyph {
 	padding-left: 15px;
 }
+
+.flex {
+	display: flex;
+	flex-direction: column;
+
+}
+
+.display-center {
+	justify-content: center;
+}
+
+.flex-row {
+	display: flex;
+  	flex-flow: row wrap;
+
+  	.flex-link {
+  		flex:1;
+
+  		margin: 15px;
+  
+  		 &:first-child {
+			margin-left: 0;
+		}
+		&:last-child {
+			margin-right: 0;
+		}
+  	}
+}
+
+@media (max-width: 576px) {
+	.flex-row {
+		.flex-link {
+			margin: 8px;
+		}
+		&:first-child {
+			margin-left: 0;
+		}
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}
