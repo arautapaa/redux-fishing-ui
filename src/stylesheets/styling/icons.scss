@@ -4,8 +4,6 @@
 	padding-bottom: 24%;
 	color: $font-color-white;
 	background-color: $blue;
-
-    background-size: 24px;
 	
 	&:first {
 		padding-left: 0;
@@ -24,6 +22,17 @@
 	span {
 		padding-bottom: 30%;
 	}
+}
+
+@media (max-width: 992px) {
+	.icon-box {
+		background-size: 20%;
+	}
+}
+
+@media (max-width: 576px) {
+	padding-bottom: 16%;
+	padding-top: 74%;
 }
 
 

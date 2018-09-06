@@ -18,20 +18,26 @@ export default class CommonSelectionModal extends React.Component {
 	}
 
 	render() {
+		const headers = {
+			fish : "Kala",
+			gear : "Väline",
+			fisher : "Kalastaja"
+		}
 		const { show, close } = this.props;
 
 		return(
 	      <Modal show={show}>
 	        <Modal.Header>
 	          <Modal.Title className="dark-text">
-	            Lisää tieto tyypille {this.props.type}
+	            Lisää tieto tyypille: {headers[this.props.type]}
 	          </Modal.Title>
 	        </Modal.Header>
 	        <Modal.Body>
 	      		<input type="text" className="form-control" onChange={(event) => this.setState({ value : event.target.value })} />
 	        </Modal.Body>
 	        <Modal.Footer>
-	          <Button bsStyle="primary" onClick={this.onClose}>Tallenna ja sulje</Button>
+	          <Button bsStyle="default" className="dark-text" onClick={() => this.props.closeWithoutSaving()}>Sulje</Button>
+	          <Button bsStyle="primary" onClick={this.onClose}>Tallenna</Button>
 	        </Modal.Footer>
 	      </Modal>
 		)

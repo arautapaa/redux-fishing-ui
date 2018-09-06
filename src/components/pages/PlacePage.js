@@ -37,6 +37,7 @@ class PlacePage extends React.Component {
 		this.onInputChange = this.onInputChange.bind(this);
 		this.savePlace = this.savePlace.bind(this);
 		this.handleHeaderClick = this.handleHeaderClick.bind(this);
+		this.calculateMiddle = this.calculateMiddle.bind(this);
 	}
 
 	handleHeaderClick(key, desc) {
@@ -112,24 +113,59 @@ class PlacePage extends React.Component {
 		}
 	}
 
+	calculateMiddle() {
+		const position = {
+			latTotal : 0,
+			lonTotal : 0
+		};
+
+		const size = this.props.places.length;
+
+		this.props.places.forEach((item) => {
+			position.latTotal += item.latitude
+			position.lonTotal += item.longitude
+		});
+
+		return {
+			latitude : (position.latTotal / size),
+			longitude : (position.lonTotal / size)
+		};
+
+	}
+
 	render() {
 
 
 		let placeForm = this.state.newPlace.latitude ? <Row><Col xs={12} sm={8} md={6}><PlaceAddForm savePlace={this.savePlace} onInputChange={this.onInputChange}/></Col></Row> : null
-		
+		let map = <LoadingIndicator />
+
+		if(this.props.places && this.props.places.length > 0) {	
+			const markers = this.props.places.slice();
+
+			if(this.state.newPlace.latitude) {
+				markers.push(this.state.newPlace);
+			}
+
+			const {latitude, longitude} = this.calculateMiddle();
+
+			console.log("%s %s", latitude, longitude);
+
+			map = <ExtendedGoogleMap
+          		googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpgoPa6EbBkJOK1m01CcZLN1nHeFkhuRQ&v=3.exp&libraries=geometry,drawing,places"
+	          	loadingElement={<div style={{ height: `100%` }} />}
+	          	containerElement={<div style={{ height: `400px` }} />}
+		   		mapElement={<div style={{ height: `100%` }} />}
+				position={{ lat: latitude, lng: longitude}}
+				defaultZoom={13}
+				onClick={this.onMapClick}
+				places={markers} 
+			/>
+		}
+
 		if(this.props.saving) {
 			placeForm = <LoadingIndicator />
 		}
-
-		const latitude = this.state.newPlace.latitude ? this.state.newPlace.latitude : 62.2;
-		const longitude = this.state.newPlace.longitude ? this.state.newPlace.longitude : 28.4;
-
-		const markers = this.props.places.slice();
-
-		if(this.state.newPlace.latitude) {
-			markers.push(this.state.newPlace);
-		}
-
+	
 		const samenameNotification = this.state.samename ? <h4 className="dark-text">Sinulla on jo paikka tällä nimellä.</h4> : null;
 
 		return(
@@ -138,16 +174,7 @@ class PlacePage extends React.Component {
 				<Grid>
 					<Row className="margin-top-30">
 						<Col xs={12}>
-							<ExtendedGoogleMap
-				          		googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpgoPa6EbBkJOK1m01CcZLN1nHeFkhuRQ&v=3.exp&libraries=geometry,drawing,places"
-					          	loadingElement={<div style={{ height: `100%` }} />}
-					          	containerElement={<div style={{ height: `400px` }} />}
-					          	mapElement={<div style={{ height: `100%` }} />}
-					          	position={{ lat: latitude, lng: longitude}}
-					          	defaultZoom={13}
-					          	onClick={this.onMapClick}
-					          	places={markers} 
-					        />
+							{map}
 						</Col>
 					</Row>
 					<Row>

@@ -41,6 +41,7 @@ export default class DataSelection extends React.Component {
     this.redirect = this.redirect.bind(this);
     this.handleSelectionAddClick = this.handleSelectionAddClick.bind(this);
     this.handleSelectionAdd = this.handleSelectionAdd.bind(this);
+    this.handleSelectionClose = this.handleSelectionClose.bind(this);
   }
 
   componentDidMount() {
@@ -61,6 +62,17 @@ export default class DataSelection extends React.Component {
     this.setState({
       timeModal : timeModal
     });
+  }
+
+  handleSelectionClose() {
+    const selectionModal = this.state.selectionModal;
+
+    selectionModal.type = null;
+    selectionModal.show = false;
+
+    this.setState({
+      selectionModal : selectionModal
+    })
   }
 
   handleSelect(item, type) {
@@ -228,6 +240,7 @@ export default class DataSelection extends React.Component {
           show={this.state.selectionModal.show}
           type={this.state.selectionModal.type}
           close={this.handleSelectionAdd}
+          closeWithoutSaving={this.handleSelectionClose}
         />
 
         <AdditionalAttributeSelection 
