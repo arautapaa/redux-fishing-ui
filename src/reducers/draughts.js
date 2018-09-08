@@ -6,7 +6,8 @@ const initialState = {
   loading: true,
   updated: false,
   deleted: false,
-  redirect: false
+  redirect: false,
+  init : true
 };
 // users reducer
 export default function draughts(state = initialState, action) {
@@ -61,7 +62,7 @@ export default function draughts(state = initialState, action) {
       	}
       });
 
-      return {...state, draughts : array};
+      return {...state, draughts : array, init : false};
     // initial state
     default:
       return state;

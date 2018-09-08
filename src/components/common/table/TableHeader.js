@@ -8,6 +8,12 @@ export default class TableHeader extends React.Component {
 		this.handleHeaderClick = this.handleHeaderClick.bind(this);
 
 		this.active = false;
+
+		this.props.fields.map((item) => {
+	      if(item.active) {
+	        this.active = true;
+	      }
+	    });
 	}
 
 	handleHeaderClick(item) {

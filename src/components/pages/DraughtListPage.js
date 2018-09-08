@@ -40,7 +40,9 @@ export class DraughtListPage extends React.Component {
 
   componentWillMount() {
     this.props.dispatch({type : 'RESET_REDIRECT'})
-    this.props.dispatch({type: 'DRAUGHTS_GET_ALL'});
+    if(!this.props.draughts.draughts || this.props.draughts.draughts.length == 0) {
+      this.props.dispatch({type: 'DRAUGHTS_GET_ALL'});
+    }
   }
 
 	handleHeaderClick(key, desc) {
@@ -60,9 +62,12 @@ export class DraughtListPage extends React.Component {
 
       let content = <LoadingIndicator />
 
-  		if(!this.props.fetching) {
+      if(!this.props.fetching && this.props.init) {
+        this.handleHeaderClick(this.fields[0].key, this.fields[0].desc);
+      }
+  		else if(!this.props.fetching) {
         content = <DataTable fields={this.fields} objects={this.props.draughts.draughts} handleHeaderClick={this.handleHeaderClick}/>
-  		} 
+  		}
   		
       return(
         <div>
@@ -78,10 +83,12 @@ export class DraughtListPage extends React.Component {
 // export the connected class
 function mapStateToProps(state, props) {
   let loading = state.draughts.loading;
+  let init = state.draughts.init;
 
   return {
     draughts: state.draughts || [],
     fetching : loading,
+    init : init
   };
 }
 export default connect(mapStateToProps)(DraughtListPage);

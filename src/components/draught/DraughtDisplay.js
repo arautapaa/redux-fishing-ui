@@ -4,7 +4,7 @@ import PlaceDisplay from './PlaceDisplay';
 import AdditionalInfoDisplay from './AdditionalInfoDisplay';
 import WeatherDisplay from './WeatherDisplay';
 
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import { Row, Col, Button, Glyphicon } from 'react-bootstrap';
 
@@ -51,6 +51,7 @@ export default class DraughtDisplay extends React.Component {
 			<div className="dark-text force-text-center">
 				<Row>
 					<Col xs={12} sm={6} smOffset={3} md={4} mdOffset={4} lg={2} lgOffset={5}>
+						<Link to="/"><Button bsStyle="primary" bsSize="large">Takaisin</Button></Link>
 						<CommonDraughtDataDisplay draught={draught}/>
 						<PlaceDisplay place={draught.place} /> 
 						<WeatherDisplay weather={draught.weather}/>

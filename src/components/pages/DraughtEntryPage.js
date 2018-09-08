@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Header from '../common/Header.js';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import LoadingIndicator from '../common/LoadingIndicator';
 
 import DraughtDisplay from '../draught/DraughtDisplay';

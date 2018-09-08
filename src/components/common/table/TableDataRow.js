@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import Moment from 'react-moment';
 
 export default class TableDataRow extends React.Component {
 
@@ -37,8 +38,7 @@ export default class TableDataRow extends React.Component {
 
 			if(field.type && field.type == 'date') {
 				let date = new Date(value);
-
-				value = date.toLocaleDateString("fi-FI");			
+				value = <Moment date={date} format="DD.MM.YYYY [klo] HH:mm" />
 			} else if(field.type && field.type == 'weight') {
 				value = (value / 1000).toFixed(2);
 			}
