@@ -10,18 +10,12 @@ notifications:
   email: false
 
 cache:
-  pip: true
   directories:
     - node_modules
 
-before_install:
-  - sudo apt-get install -y python3.4
-  - sudo apt-get install --upgrade -y python-pip
-  - pip install --upgrade pip 
-
 install:
-  - npm install
   - pip install awscli
+  - npm install
 
 script:
   - npm run build-prod
