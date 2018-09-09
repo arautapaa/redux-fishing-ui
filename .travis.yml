@@ -1,8 +1,10 @@
+sudo: required
+
 language: node_js
 node_js:
   - "6"
 python:
-  - "3.5"
+  - "3.4"
 
 notifications:
   email: false
@@ -11,6 +13,10 @@ cache:
   pip: true
   directories:
     - node_modules
+
+before_install:
+  - sudo apt-get install -y python3.4
+  - sudo apt-get install --upgrade -y python-pip
 
 install:
   - npm install
