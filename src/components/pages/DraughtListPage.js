@@ -44,7 +44,7 @@ export class DraughtListPage extends React.Component {
 
   componentWillMount() {
     this.props.dispatch({type : 'RESET_REDIRECT'})
-    if(!this.props.draughts.draughts || this.props.draughts.draughts.length == 0) {
+    if(this.props.fetching) {
       this.props.dispatch({type: 'DRAUGHTS_GET_ALL'});
     }
   }

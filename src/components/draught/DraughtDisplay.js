@@ -51,7 +51,6 @@ export default class DraughtDisplay extends React.Component {
 			<div className="dark-text force-text-center">
 				<Row>
 					<Col xs={12} sm={6} smOffset={3} md={4} mdOffset={4} lg={2} lgOffset={5}>
-						<Link to="/"><Button bsStyle="primary" bsSize="large">Takaisin</Button></Link>
 						<CommonDraughtDataDisplay draught={draught}/>
 						<PlaceDisplay place={draught.place} /> 
 						<WeatherDisplay weather={draught.weather}/>
@@ -59,6 +58,12 @@ export default class DraughtDisplay extends React.Component {
 		        	</Col>
 		        </Row>
 		        <Row className="margin-top-30">
+		        	<Col xs={12} sm={4} smOffset={4}>
+		            	<Link to="/"><Button bsStyle="primary" bsSize="large">Takaisin</Button></Link>
+		            </Col>
+		        </Row>
+		        <Row className="margin-top-30">
+
 		            <Col xs={12} sm={3} smOffset={3}>
 		              <Button bsSize="large" bsStyle="primary" className="btn-block" onClick={this.clickEdit}>
 		                  Muokkaa 
