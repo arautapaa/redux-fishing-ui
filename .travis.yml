@@ -1,16 +1,20 @@
 language: node_js
 node_js:
   - "6"
+python:
+  - "3.5"
 
 notifications:
   email: false
 
 cache:
+  pip: true
   directories:
     - node_modules
 
 install:
   - npm install
+  - pip install awscli
 
 script:
   - npm run build-prod
@@ -24,3 +28,9 @@ deploy:
   local_dir: dist
   skip_cleanup: true
   acl: public_read
+  
+after_deploy:
+  # Allow `awscli` to make requests to CloudFront.
+  - aws configure set preview.cloudfront true
+  # Invalidate every object in the targeted distribution.
+  - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
