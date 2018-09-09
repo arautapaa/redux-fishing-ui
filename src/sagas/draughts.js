@@ -55,6 +55,7 @@ export function* deleteDraught(action) {
   const update = yield call(DraughtAPI.deleteDraught, action.id);
 
   yield put({
-    type : 'DRAUGHT_DELETED'
+    type : 'DRAUGHT_DELETED',
+    id   : action.id
   });
 }

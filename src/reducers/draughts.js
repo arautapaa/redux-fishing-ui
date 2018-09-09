@@ -17,7 +17,11 @@ export default function draughts(state = initialState, action) {
     case 'DELETE_READY':
       return {...state, deleted: false, redirect : true}
     case 'DRAUGHT_DELETED':
-      return {...state, deleted: true}
+      const items = state.draughts.filter((item) => {
+          return item.id != action.id;
+      });
+
+      return {...state, draughts: items, deleted: true}
     case 'DRAUGHTS_LOADING':
       return {...state, loading: true}
     case 'DRAUGHT_ADD':
@@ -35,7 +39,7 @@ export default function draughts(state = initialState, action) {
     case 'UPDATE_COMPLETE':
       return {...state, updated : false}
     case 'SAVE_DRAUGHT':
-      return {...state, saved : true, saving: false}
+      return {...state, draughts: [action.draught, ...state.draughts], saved : true, saving: false}
     case 'DRAUGHTS_LIST_SAVE':
       return {...state, draughts: action.draughts, loading : false};
     case 'DRAUGHTS_SORT':

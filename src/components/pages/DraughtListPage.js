@@ -11,7 +11,7 @@ export class DraughtListPage extends React.Component {
 	constructor(props) {
 		super(props);
 
-    this.fields = [{
+    const fields = [{
       header : "Pvm",
       key : "catchTime",
       type : "date",
@@ -35,6 +35,10 @@ export class DraughtListPage extends React.Component {
       key : "place.name"
     }];
 
+    this.state = {
+      fields : fields
+    }
+
 		this.handleHeaderClick = this.handleHeaderClick.bind(this);
 	}
 
@@ -46,12 +50,18 @@ export class DraughtListPage extends React.Component {
   }
 
 	handleHeaderClick(key, desc) {
-    this.fields.map((item) => {
+    const fields = this.state.fields;
+
+    fields.map((item) => {
       if(item.key == key) {
         item.active = true;
       } else {
         item.active = false;
       }
+    });
+
+    this.setState({
+      fields : fields
     })
 
 		this.props.dispatch({type: 'DRAUGHTS_SORT', field : key, desc : desc});
@@ -63,10 +73,10 @@ export class DraughtListPage extends React.Component {
       let content = <LoadingIndicator />
 
       if(!this.props.fetching && this.props.init) {
-        this.handleHeaderClick(this.fields[0].key, this.fields[0].desc);
+        this.handleHeaderClick(this.state.fields[0].key, this.state.fields[0].desc);
       }
   		else if(!this.props.fetching) {
-        content = <DataTable fields={this.fields} objects={this.props.draughts.draughts} handleHeaderClick={this.handleHeaderClick}/>
+        content = <DataTable fields={this.state.fields} objects={this.props.draughts.draughts} handleHeaderClick={this.handleHeaderClick}/>
   		}
   		
       return(
