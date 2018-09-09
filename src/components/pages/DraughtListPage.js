@@ -76,7 +76,7 @@ export class DraughtListPage extends React.Component {
         this.handleHeaderClick(this.state.fields[0].key, this.state.fields[0].desc);
       }
   		else if(!this.props.fetching) {
-        content = <DataTable fields={this.state.fields} objects={this.props.draughts.draughts} handleHeaderClick={this.handleHeaderClick}/>
+        content = <DataTable fields={this.state.fields} activeField={this.props.activeField} objects={this.props.draughts.draughts} handleHeaderClick={this.handleHeaderClick}/>
   		}
   		
       return(
@@ -98,7 +98,8 @@ function mapStateToProps(state, props) {
   return {
     draughts: state.draughts || [],
     fetching : loading,
-    init : init
+    init : init,
+    activeField : state.draughts.activeField || {}
   };
 }
 export default connect(mapStateToProps)(DraughtListPage);

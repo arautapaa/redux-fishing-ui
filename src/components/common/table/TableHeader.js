@@ -10,7 +10,7 @@ export default class TableHeader extends React.Component {
 		this.active = false;
 
 		this.props.fields.map((item) => {
-	      if(item.active) {
+	      if(item.key == this.props.activeField.field) {
 	        this.active = true;
 	      }
 	    });
@@ -33,9 +33,9 @@ export default class TableHeader extends React.Component {
 			let className = null;
 			let icon = null;
 
-			if(item.active) {
+			if(this.props.activeField.field == item.key) {
 				className = "active-sort";
-				const iconName = this.active ? "icon icon-down" : "icon icon-up";
+				const iconName = this.props.activeField.desc ? "icon icon-down" : "icon icon-up";
 				icon = <span className={iconName}></span>
 			}
 

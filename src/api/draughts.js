@@ -28,7 +28,13 @@ export default class DraughtAPI {
         })
 
         response[1].sort((a,b) => {
-          return a.name > b.name;
+          let aUC = a.name.toUpperCase();
+          let bUC = b.name.toUpperCase();
+          if(aUC < bUC) {
+            return -1
+          } else {
+            return 1;
+          }
         });
 
   			resolve({

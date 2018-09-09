@@ -9,7 +9,7 @@ export default class DataTableDisplay extends React.Component {
 		return(
 			<table className="data-table table table-bordered">
 				<thead>
-					<TableHeader fields={this.props.fields} handleHeaderClick={this.props.handleHeaderClick}/>
+					<TableHeader  activeField={this.props.activeField}  fields={this.props.fields} handleHeaderClick={this.props.handleHeaderClick}/>
 				</thead>
 				<TableBody fields={this.props.fields} objects={this.props.objects} />
 			</table>

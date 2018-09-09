@@ -7,7 +7,8 @@ const initialState = {
   updated: false,
   deleted: false,
   redirect: false,
-  init : true
+  init : true,
+  activeField : {}
 };
 // users reducer
 export default function draughts(state = initialState, action) {
@@ -56,17 +57,26 @@ export default function draughts(state = initialState, action) {
           fieldB = b[action.field];
         }
 
+        if(typeof fieldA == 'string') {
+          fieldA = fieldA.toUpperCase();
+          fieldB = fieldB.toUpperCase();
+        }
+
         const returnValue = action.desc ? 1 : -1;
 
 
       	if(fieldA < fieldB) {
       		return returnValue;
-      	} else {
+      	} else if(fieldA > fieldB){
       		return -returnValue;
-      	}
+      	} else {
+          return 0;
+        }
       });
 
-      return {...state, draughts : array, init : false};
+
+
+      return {...state, draughts : array, activeField : { field : action.field, desc : action.desc }, init : false};
     // initial state
     default:
       return state;
