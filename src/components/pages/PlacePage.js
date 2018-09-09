@@ -148,8 +148,6 @@ class PlacePage extends React.Component {
 
 			const {latitude, longitude} = this.calculateMiddle();
 
-			console.log("%s %s", latitude, longitude);
-
 			map = <ExtendedGoogleMap
           		googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpgoPa6EbBkJOK1m01CcZLN1nHeFkhuRQ&v=3.exp&libraries=geometry,drawing,places"
 	          	loadingElement={<div style={{ height: `100%` }} />}
@@ -190,7 +188,7 @@ class PlacePage extends React.Component {
 					{placeForm}
 					<Row>
 						<Col xs={12}>
-							<DataTableDisplay handleHeaderClick={this.handleHeaderClick} fields={this.fields} objects={this.props.places}/>
+							<DataTableDisplay activeField={this.props.activeField} handleHeaderClick={this.handleHeaderClick} fields={this.fields} objects={this.props.places}/>
 						</Col>
 					</Row>
 				</Grid>
@@ -203,7 +201,8 @@ class PlacePage extends React.Component {
 function mapStateToProps(state, ownprops) {
 	return {
 		places : state.places.entries || [],
-		saving : state.places.saving
+		saving : state.places.saving,
+		activeField : state.places.activeField
 	}
 }
 export default connect(mapStateToProps)(PlacePage);

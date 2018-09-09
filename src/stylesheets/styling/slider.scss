@@ -1,0 +1,22 @@
+.slider {
+	.rangeslider__fill {
+		background-color: $turqoise !important;
+	}
+}
+
+.rangeslider-horizontal {
+    height: 24px !important;
+    background-color: $blue !important;
+
+    .rangeslider__handle {
+		width: 40px !important;
+		height: 40px !important;
+
+		&:after {
+			top: 11px !important;
+			left: 10px !important;
+		}
+
+
+    }
+}

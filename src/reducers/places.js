@@ -1,6 +1,7 @@
 const initialState = {
   entries: [],
-  saving: false
+  saving: false,
+  activeField : {}
 };
 // users reducer
 export default function places(state = initialState, action) {
@@ -26,7 +27,7 @@ export default function places(state = initialState, action) {
 		      	}
 		    });
 
-		    return {...state, entries : array}
+		    return {...state, activeField : { field : action.field, desc : action.desc }, entries : array}
 		default:
 			return state;
 	}
