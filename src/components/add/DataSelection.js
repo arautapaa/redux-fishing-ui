@@ -248,7 +248,7 @@ export default class DataSelection extends React.Component {
           addAttribute={this.addAttribute} 
           removeAttribute={this.removeAttribute}
           additionalAttributes={this.state.additionalAttributes} />
-        <Row className="margin-top-30">
+        <Row className="margin-top-30 margin-bottom-30">
             <Col xs={12} sm={3} smOffset={3}>
               <Button bsSize="large" bsStyle="primary" className="btn-block" onClick={this.save}>
                   Tallenna 

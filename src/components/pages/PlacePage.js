@@ -170,6 +170,7 @@ class PlacePage extends React.Component {
 			<div>
 				<Header {...this.props} />
 				<Grid>
+					<h1 className="text-center dark-text">Kalapaikat</h1>
 					<Row className="margin-top-30">
 						<Col xs={12}>
 							{map}

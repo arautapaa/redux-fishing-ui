@@ -39,6 +39,7 @@ export default class LoginPage extends React.Component {
 			<div className="login-page">
 
 				<header className="login-header">
+					<h1 className="text-center">KALAKIRJA</h1>
 					<div className="login-logo">
 					</div>
 				</header>
@@ -49,7 +50,7 @@ export default class LoginPage extends React.Component {
 						<Row>
 							<Col xs={8} xsOffset={2} sm={4} smOffset={4} md={4} mdOffset={4} >
 								<div className="flex display-center">
-									<h1 className="text-center">KALAKIRJA</h1>
+
 									<GoogleLogin
 										className="btn btn-lg google-login-button"
 									    clientId={EnvironmentConfiguration.GOOGLE_CLIENT_ID}

@@ -82,6 +82,7 @@ export class DraughtListPage extends React.Component {
       return(
         <div>
           <Header {...this.props} />
+          <h1 className="text-center dark-text">Kalat</h1>
           <Grid>
             {content}
   	   		</Grid>

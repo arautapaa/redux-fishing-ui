@@ -1,21 +1,23 @@
 .login-page {
 	position: relative;
 
-	background-color: $blue;
+	background-color: $light-blue;
 	/*background-image: url("/media/images/bg.png");
 */
 	height: 100%;
 
 	.login-header {
-		padding-top: 10%;
+		padding-top: 4%;
+		padding-bottom: 12%;
+		background-color: $blue;
+		-webkit-clip-path: polygon(0 0, 100% 0, 100% 96%, 0 100%);
+  		clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
 	}
 
 	.login-logo {
-		background-color: $turqoise;
 		height: 180px;
 		width: 180px;
 		margin: 0 auto;
-	  	border-radius: 50%;
 	  	display: block;
 	  	background-image: url("/media/icons/logo.png");
 	  	background-size: 60%;
@@ -31,7 +33,8 @@
 	}
 
 	.google-login-button {
+		text-transform: uppercase;
 		background-color: $turqoise;  
-
+		border-radius: 30px;
 	}
 }

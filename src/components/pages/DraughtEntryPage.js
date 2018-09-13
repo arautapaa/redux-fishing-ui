@@ -49,6 +49,7 @@ class DraughtEntryPage extends React.Component {
 				<Grid>
 					<Row>
 						<Col xs={12}>
+							<h1 className="text-center dark-text">Saaliin tiedot</h1>
 							{content}
 						</Col>
 					</Row>

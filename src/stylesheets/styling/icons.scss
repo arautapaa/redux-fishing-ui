@@ -1,9 +1,13 @@
 
 .icon-box {
-	padding-top: 66%;
-	padding-bottom: 24%;
+	padding-top: 72%;
+	padding-bottom: 18%;
 	color: $font-color-white;
 	background-color: $blue;
+
+	line-height: 21px;
+
+	font-size: 20px;
 	
 	&:first {
 		padding-left: 0;
@@ -27,13 +31,10 @@
 @media (max-width: 992px) {
 	.icon-box {
 		background-size: 20%;
+		font-size: 16px;
 	}
 }
 
-@media (max-width: 576px) {
-	padding-bottom: 16%;
-	padding-top: 74%;
-}
 
 
 .menu-icon-fish {
@@ -77,12 +78,21 @@
 	background-image: url("/media/icons/sort-up.png");
 	background-repeat: no-repeat;
 	background-position: center; 
+
+	background-size: 100%;
+
+	width: 14px;
+	height: 14px;
 }
 
 .icon-down {
 	background-image: url("/media/icons/sort-down.png");
 	background-repeat: no-repeat;
 	background-position: center; 
+
+	background-size: 100%;
+	width: 14px;
+	height: 14px;
 }
 
 .glyphicon-plus {

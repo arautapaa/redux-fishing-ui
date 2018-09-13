@@ -62,7 +62,9 @@ export default class DataTable extends React.Component {
 
 		return(
 			<div>
-				<DataTableDisplay  activeField={this.props.activeField} fields={this.props.fields} handleHeaderClick={this.handleHeaderClick} objects={this.state.objects}/>
+				<div className="table-responsive" >
+					<DataTableDisplay  activeField={this.props.activeField} fields={this.props.fields} handleHeaderClick={this.handleHeaderClick} objects={this.state.objects}/>
+				</div>
 				<div className="pull-right">
 					{pagination}
 				</div>

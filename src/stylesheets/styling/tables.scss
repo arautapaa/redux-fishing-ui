@@ -16,6 +16,22 @@
 		color: black;
 	}
 
+	min-width: 768px;
+
 	margin-top: 30px;
 	overflow-x: scroll;
+}
+
+.pagination {
+	* {
+		color: $black !important;
+	}
+
+	.active {
+		a {
+			background-color: $turqoise !important;
+			color: $white !important;
+
+		}
+	}
 }
