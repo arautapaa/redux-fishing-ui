@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Grid, Row, Col } from 'react-bootstrap';
 import DataTable from '../common/table/DataTable';
 import Header from '../common/Header';
+import { Link } from 'react-router-dom';
 import LoadingIndicator from '../common/LoadingIndicator';
 
 // Home page component
@@ -83,6 +84,15 @@ export class DraughtListPage extends React.Component {
         <div>
           <Header {...this.props} />
           <h1 className="text-center dark-text">Kalat</h1>
+          <Grid>
+            <Row>
+              <Col xs={4} xsOffset={4} className="text-center">
+                <Link className="text-center dark-text" to="/analysis">
+                  Analysoi
+                </Link>
+              </Col>
+            </Row>
+          </Grid>
           <Grid>
             {content}
   	   		</Grid>

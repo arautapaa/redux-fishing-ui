@@ -8,6 +8,7 @@ import LoginPage from './components/pages/LoginPage';
 import NotFound from "./components/NotFound";
 import DraughtEntryPage from "./components/pages/DraughtEntryPage";
 import PlacePage from "./components/pages/PlacePage";
+import DraughtAnalyzePage from './components/pages/DraughtAnalyzePage';
 
 // build the router
 const router = (
@@ -15,6 +16,7 @@ const router = (
 	<div>
 		<Switch>
 		 <ProtectedRoute path="/" exact component={DraughtListPage}/>	
+		 <ProtectedRoute path="/analysis" component={DraughtAnalyzePage}/>
 		 <ProtectedRoute path="/fishes" component={DraughtListPage}/>
 		 <ProtectedRoute path="/new" component={DraughtAddPage}/>
 		 <ProtectedRoute path="/edit/:id" component={DraughtAddPage}/>
