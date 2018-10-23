@@ -38,19 +38,15 @@ export default class PlaceFilterSelection extends React.Component {
 	}
 
 	filterSelections() {
-		let key = Object.keys(this.props.filteredData)[0];
-
 		let foundEntries = {};
 
-		Object.keys(this.props.filteredData[key]).forEach((draughtKey) => {
-			this.props.filteredData[key][draughtKey].forEach((draught) => {
-				const value = draught[this.props.type];
-				if(!foundEntries[value]) {
-					foundEntries[value] = 0;
-				}
+		this.props.filteredData.forEach((draught) => {
+			const value = draught[this.props.type];
+			if(!foundEntries[value]) {
+				foundEntries[value] = 0;
+			}
 
-				foundEntries[value] = foundEntries[value] + 1; 
-			});
+			foundEntries[value] = foundEntries[value] + 1; 
 		});
 
 		return foundEntries;

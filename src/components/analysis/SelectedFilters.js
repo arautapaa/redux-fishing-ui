@@ -9,7 +9,14 @@ export default class SelectedFilters extends React.Component {
 			let filterComponents = [];
 
 			Object.keys(selectedFilters).forEach((filtername) => {
-				const filtervalues = selectedFilters[filtername];
+				let filtervalues = selectedFilters[filtername].slice();
+
+				filtervalues.forEach((value, index) => {
+					if(typeof value == "object") {
+						filtervalues[index] = value.min + "-" + value.max;
+					}
+				})
+
 				const filtervaluestr = filtervalues.join(",");
 
 				filterComponents.push(<Row><Col xs={4} xsOffset={4}><strong>{filtername}</strong>: {filtervaluestr}</Col></Row>);

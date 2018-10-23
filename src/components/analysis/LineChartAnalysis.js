@@ -4,80 +4,133 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import {Bar } from 'react-chartjs-2';
 
 export default class LineChartAnalysis extends React.Component {
-	render() {
-		const colors = ['rgba(255, 99, 132, 0.7)', 'rgba(0, 99, 132, 0.7)', 'rgba(201, 49, 132, 0.7)'];
-		const filters = [];
 
-		this.props.data.forEach((filteredData) => {
-			const draughts = filteredData.filteredData[this.props.keyname]
+	constructor(props) {
+		super(props);
 
-			const data = Object.keys(draughts).map((key) => {
-				let label = key;
+		this.handleBarClick = this.handleBarClick.bind(this);
+		this.getLabelName = this.getLabelName.bind(this);
+	}
 
-				if(this.props.labeltype == 'numeric') {
-					label = parseInt(key);
+	getLabelName(filter) {
+		const selectedFilters = filter.selectedFilters;
+
+		let filterComponents = [];
+
+		Object.keys(selectedFilters).forEach((filtername) => {
+			let filtervalues = selectedFilters[filtername].slice();
+
+			filtervalues.forEach((value, index) => {
+				if(typeof value == "object") {
+					filtervalues[index] = value.min + "-" + value.max;
 				}
+			})
 
-				return {
-					label : label,
-					value : draughts[key].length,
-					objects : draughts[key]
-				}
-			});
-
-			filters.push(data);
+			const filtervaluestr = filtervalues.join(",");
+			filterComponents.push(filtername + ":" + filtervaluestr);
 		});
 
-		let datasets = [];
+		return filterComponents.join(" ; ");
+	}
+
+	handleBarClick(element) {
+		if(element.length > 0) {
+			const labels = element[0]._model.label.split("-");
+
+			this.props.modifyFilter({
+				index : element[0]._datasetIndex,
+				type : this.props.keyname,
+				values : {
+					min : parseInt(labels[0]),
+					max : parseInt(labels[1])
+				}
+			})
+		}
+	}
+
+	render() {
+		const colors = ['rgba(255, 99, 132, 0.7)', 'rgba(0, 99, 132, 0.7)', 'rgba(201, 49, 132, 0.7)'];
+		const datasets = [];
 		let labels = null;
 
-		filters.forEach((data, index) => {
-			data.sort(this.props.sortHandler);
-			
-			let refinedData = [];
+		const values = [];
 
-			if(this.props.labeltype == 'numeric') {
+		this.props.data.forEach((filter) => {
+			filter.filteredData.forEach((draught) => {
+				const fields = this.props.keyname.split(".");
+				let value = draught;
 
-				for(let i = data[0].label, j = 0; i <= data[data.length - 1].label; i++) {
-					let dataobject = null;
+				fields.forEach((field) => {
+					value = value[field];
+				});
 
-					if(this.props.data[index].filteredData[this.props.keyname][i] != null) {
-						dataobject = data[j++];
+				value = this.props.parse(value);
+
+				values.push(value);
+			});
+		});
+
+		values.sort((a,b) => {
+			return a-b;
+		});
+
+		
+		const min = parseInt(values[0] / this.props.range) * this.props.range;
+		const max = (parseInt(values[values.length - 1] / this.props.range) * this.props.range) + this.props.range;
+
+
+		this.props.data.forEach((filter, index) => {
+
+			const labelName = this.getLabelName(filter);
+
+			const values = [];
+
+			for(let i = min; i < max; i += this.props.range) {
+				const matching = filter.filteredData.filter((draught) => {
+					const fields = this.props.keyname.split(".");
+					let value = draught;
+
+					fields.forEach((field) => {
+						value = value[field];
+					});
+
+					value = this.props.parse(value);
+
+					if(this.props.range == 1) {
+						return value == i;
+					} else {
+						return value > i && value < i + this.props.range;
 					}
+				});
 
-					if(!dataobject) {
-						dataobject = {
-							label : i,
-							value : 0,
-							objects : []
-						}
-					}
+				let label = i;
 
-					refinedData.push(dataobject)
+				if(this.props.range != 1) {
+					label += "-" + (i + this.props.range);
 				}
 
-			} else {
-				refinedData = data;
+				values.push({
+					label : label,
+					amount : matching.length
+				});
 			}
 
-
-			if(!labels) {
-				labels = refinedData.map((dataentry) => {
-					return dataentry.label
-				})
+			if(labels == null) {
+				labels = values.map((dataentry) => {
+					return dataentry.label;
+				});
 			}
 
-			const dataValues = refinedData.map((dataentry) => {
-				return dataentry.value
+			const dataValues = values.map((dataentry) => {
+				return dataentry.amount;
 			})
 
 			datasets.push({
-				label : this.props.labelName + " " + (index + 1),
+				label : labelName,
 				fill : false,
 				backgroundColor : colors[index],
 				data : dataValues
 			})
-
 		});
 
 
@@ -86,10 +139,26 @@ export default class LineChartAnalysis extends React.Component {
 			datasets : datasets
 		}
 
+		const showOptions = {
+			scales: {
+		        yAxes: [{
+		            ticks: {
+		                beginAtZero: true
+		            }
+		        }]
+		    },
+		    legend: {
+	            labels: {
+	                // This more specific font property overrides the global property
+	                fontSize: 24
+	            }
+	        }
+		}
+
 		return(
 			<Grid className="dark-text">
 				<h3>{this.props.headerName}</h3>
-				<Bar data={dataOptions} />
+				<Bar data={dataOptions} options={showOptions} getElementAtEvent={this.handleBarClick}/>
 			</Grid>
 		)
 	}

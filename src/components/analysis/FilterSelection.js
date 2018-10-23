@@ -1,6 +1,7 @@
 import React from 'react';
 import CommonFilterSelection from './CommonFilterSelection';
 import PlaceFilterSelection from './PlaceFilterSelection';
+import RangeFilterSelection from './RangeFilterSelection';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 export default class FilterSelection extends React.Component {
@@ -11,7 +12,7 @@ export default class FilterSelection extends React.Component {
 		this.state = {
 			selectedFilters : {},
 			selectedType : null,
-			filteredData : props.analysis,
+			filteredData : props.draughts,
 			datasets : [],
       showFilters : true
 		}
@@ -25,11 +26,15 @@ export default class FilterSelection extends React.Component {
 	handleSelect(item, type) {
   		let selectedFilters = JSON.parse(JSON.stringify(this.state.selectedFilters));
 
-  		if(!selectedFilters[type]) {
-  			selectedFilters[type] = [];
-  		}
+      if(typeof item == 'object') {
+        selectedFilters[type] = [];
+      } else {
+    		if(!selectedFilters[type]) {
+    			selectedFilters[type] = [];
+    		}
+      }
 
-  		selectedFilters[type].push(item)
+  		selectedFilters[type].push(item);
 
   		this.filter(selectedFilters).then((filteredData) => {
   			this.setState({
@@ -42,42 +47,47 @@ export default class FilterSelection extends React.Component {
 
   	filter(filters) {
   		return new Promise((resolve) => {
-  			let data = JSON.parse(JSON.stringify(this.props.analysis));
+  			let draughts = this.props.draughts.slice();
 
-  			Object.keys(data).forEach((typekey) => {
-  				const rangekeys = Object.keys(data[typekey]).forEach((rangekey) => {
-  					const draughts = data[typekey][rangekey];
+  			const filteredDraughts = draughts.filter((draught) => {
+ 					if(Object.keys(filters).length == 0) {
+  					return true;
+  				}
 
-  					const filteredDraughts = draughts.filter((draught) => {
- 						if(Object.keys(filters).length == 0) {
-  							return true;
+  				let found = true;
+
+  				Object.keys(filters).forEach((filterkey) => {
+  					const filtervalues = filters[filterkey];
+  					
+            let datavalue = draught;
+
+            const filterkeyfields = filterkey.split(".");
+
+            filterkeyfields.forEach((field) => {
+              datavalue = datavalue[field];
+            });
+
+            let valuefound = false;
+
+  					filtervalues.forEach((filtervalue) => {
+              if(typeof filtervalue == 'object') {
+                if(filtervalue.min < datavalue && filtervalue.max > datavalue) {
+                  valuefound = true;
+                }
+              } else if(filtervalue == datavalue) {
+  						  valuefound = true;
   						}
-
-  						let found = true;
-
-  						Object.keys(filters).forEach((filterkey) => {
-  							const filtervalues = filters[filterkey];
-  							let valuefound = false;
-
-  							filtervalues.forEach((filtervalue) => {
-  								if(filtervalue == draught[filterkey]) {
-  									valuefound = true;
-  								}
-  							});
-
-  							if(!valuefound) {
-  								found = false;
-  							}
-  						});
-
-  						return found;
   					});
 
-  					data[typekey][rangekey] = filteredDraughts;
-  				})
+  					if(!valuefound) {
+  						found = false;
+  					}
+  				});
+
+  				return found;
   			});
 
-  			resolve(data);
+  			resolve(filteredDraughts);
   		})
   	}
 
@@ -86,13 +96,12 @@ export default class FilterSelection extends React.Component {
     		const datasets = this.state.datasets.slice();
 
     		this.props.addFilter({
-    			selectedFilters : this.state.selectedFilters,
-    			filteredData : this.state.filteredData
+    			selectedFilters : this.state.selectedFilters
     		});
 
     		this.setState({
     			datasets : datasets,
-    			filteredData : this.props.analysis,
+    			filteredData : this.props.draughts,
     			selectedType : null,
     			selectedFilters : {},
           showFilters : false
@@ -107,7 +116,7 @@ export default class FilterSelection extends React.Component {
     removeFilters() {
       this.setState({
         datasets : [],
-        filteredData : this.props.analysis,
+        filteredData : this.props.draughts,
         selectedType : null,
         selectedFilters : {},
         showFilters : true
@@ -127,7 +136,7 @@ export default class FilterSelection extends React.Component {
           <CommonFilterSelection type="fisher" handleSelect={this.handleSelect}  title="KALASTAJA" items={this.props.selections.fisher} filteredData={this.state.filteredData} filters={this.state.selectedFilters} selectedType={this.state.selectedType}/>
           <CommonFilterSelection type="gear" handleSelect={this.handleSelect}  title="VÄLINE" items={this.props.selections.gear} filteredData={this.state.filteredData} filters={this.state.selectedFilters} selectedType={this.state.selectedType}/>
           <PlaceFilterSelection type="placeId" handleSelect={this.handleSelect}  title="PAIKKA" items={this.props.places} filteredData={this.state.filteredData} filters={this.state.selectedFilters} selectedType={this.state.selectedType}/>
-      </div>
+        </div>
 
       chooseFilterText = "Tallenna suodatus";
     }

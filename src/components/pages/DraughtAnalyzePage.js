@@ -16,9 +16,6 @@ export default class DraughtAnalyzePage extends React.Component {
 
 		this.state = {
 			loading : true,
-			analysis : {
-
-			},
 			selections : [],
 			places : [],
 			filters : [],
@@ -28,81 +25,95 @@ export default class DraughtAnalyzePage extends React.Component {
 
 		}
 
-		this.rangeSort = this.rangeSort.bind(this);
-		this.numberSort = this.numberSort.bind(this);
-		this.directionSort = this.directionSort.bind(this);
-		this.handleSelect = this.handleSelect.bind(this);
 		this.addFilter = this.addFilter.bind(this);
+		this.filter = this.filter.bind(this);
 		this.removeFilters = this.removeFilters.bind(this);
+		this.modifyFilter = this.modifyFilter.bind(this);
+		this.parseFloat = this.parseFloat.bind(this);
+		this.parseMonth = this.parseMonth.bind(this);
 	}
 
-	rangeSort(a, b) {
-		const aSplit = a.label.split("-")[0];
-		const bSplit = b.label.split("-")[0];
+	parseMonth(value) {
+		const date = new Date(value);
 
-		return parseInt(aSplit) - parseInt(bSplit);
+		return date.getMonth() + 1;
 	}
 
-	numberSort(a, b) {
-		return a.label - b.label;
-	}
-
-	directionSort(a, b) {
-		const map = {
-			"Pohjoinen" : 0,
-			"Koillinen" : 45,
-			"Itä" : 90,
-			"Kaakko" : 135,
-			"Etelä" : 180,
-			"Lounas" : 225,
-			"Länsi" : 270,
-			"Luode" : 315
-		}
-
-		return map[a] - map[b];
+	parseFloat(value) {
+		return parseFloat(value);
 	}
 
 	componentDidMount() {
- 		Promise.all([DraughtAnalyzer.getDraughtAnalysis(), DraughtAPI.getAllSelections()]).then((response) => {
+ 		Promise.all([DraughtAPI.getAllDraughts(), DraughtAPI.getAllSelections()]).then((response) => {
  			this.setState({
  				loading : false,
  				filteredData : response[0],
- 				analysis : response[0],
+ 				draughts : response[0],
  				selections : response[1].selections,
  				places : response[1].places
  			})
  		})	
   	}
-
-  	handleSelect(item, type) {
-  		let analysisData = JSON.parse(JSON.stringify(this.state.analysis));
-
-  		Object.keys(analysisData).forEach((typekey) => {
-  			const rangekeys = Object.keys(analysisData[typekey]);
-
-  			rangekeys.forEach((rangekey) => {
-  				const draughts = analysisData[typekey][rangekey].filter((draught) => {
-  					return draught[type] == item;
-  				});
-
-  				analysisData[typekey][rangekey] = draughts;
-  			});
-  		});
-
-  		this.setState({
-  			filteredData : analysisData
-  		})
-  	}
-
   	addFilter(filter) {
   		const filters = this.state.filters.slice();
 
-  		filters.push(filter);
+  		this.filter(filter.selectedFilters).then((filteredData) => {
+  			filter.filteredData = filteredData;
+  			filters.push(filter);
 
-  		this.setState({
-  			filters : filters
+  			this.setState({
+	  			filters : filters
+	  		});
+  		}) 
+  		
+  	}
+
+  	filter(filters) {
+  		return new Promise((resolve) => {
+  			let draughts = this.state.draughts.slice();
+
+  			const filteredDraughts = draughts.filter((draught) => {
+ 				if(Object.keys(filters).length == 0) {
+  					return true;
+  				}
+
+  				let found = true;
+
+  				Object.keys(filters).forEach((filterkey) => {
+  					const filtervalues = filters[filterkey];
+  					
+            		let datavalue = draught;
+
+           			const filterkeyfields = filterkey.split(".");
+
+            		filterkeyfields.forEach((field) => {
+              			datavalue = datavalue[field];
+            		});
+
+            		let valuefound = false;
+
+  					filtervalues.forEach((filtervalue) => {
+              			if(typeof filtervalue == 'object') {
+               				if(filtervalue.min < datavalue && filtervalue.max > datavalue) {
+                  				valuefound = true;
+                			}
+              			} else if(filtervalue == datavalue) {
+  						  	valuefound = true;
+  						}
+  					});
+
+  					if(!valuefound) {
+  						found = false;
+  					}
+  				});
+
+  				return found;
+  			});
+
+  			resolve(filteredDraughts);
   		});
   	}
+
 
   	removeFilters() {
   		this.setState({
@@ -112,6 +123,22 @@ export default class DraughtAnalyzePage extends React.Component {
 
   	handleHeaderClick() {
 
+  	}
+
+  	modifyFilter(filter) {
+  		const filters = this.state.filters.slice();
+
+  		let selectedFilters = filters[filter.index].selectedFilters;
+  		selectedFilters[filter.type] = [];
+  		selectedFilters[filter.type].push(filter.values);
+  		
+  		this.filter(selectedFilters).then((filteredData) => {
+  			filters[filter.index].filteredData = filteredData;
+
+  			this.setState({
+  				filters : filters
+  			}) 
+  		});
   	}
 
 	render() {
@@ -124,43 +151,51 @@ export default class DraughtAnalyzePage extends React.Component {
 				<SelectedFilters filters={this.state.filters} />
 				<LineChartAnalysis 
 					data={this.state.filters} 
-					keyname="byTemp"
+					keyname="weather.temperature"
+					labelName="Kalojen määrä"
+					parse={this.parseFloat}
+					range={5}
+					headerName="Lämpötila" 
+					modifyFilter={this.modifyFilter}/>
+				<LineChartAnalysis 
+					data={this.state.filters} 
+					keyname="weather.winddirection"
 					sortHandler={this.rangeSort} 
 					labelName="Kalojen määrä"
-					headerName="Lämpötila" />
-					<LineChartAnalysis 
-					data={this.state.filters}
-					keyname="weight"
-					sortHandler={this.rangeSort}
+					parse={this.parseFloat}
+					range={15}
+					headerName="Tuulensuunta"
+					modifyFilter={this.modifyFilter} />
+				<LineChartAnalysis 
+					data={this.state.filters} 
+					keyname="catchTime"
+					parse={this.parseMonth}
 					labelName="Kalojen määrä"
-					headerName="Paino" />
-					<LineChartAnalysis 
-					data={this.state.filters}
-					keyname="byMonth"
-					sortHandler={this.numberSort}
+					range={1}
+					headerName="Kuukausi"
+					modifyFilter={this.modifyFilter} />
+				<LineChartAnalysis 
+					data={this.state.filters} 
+					keyname="weather.pressure"
+					parse={this.parseFloat}
 					labelName="Kalojen määrä"
-					headerName="Kuukausi" 
-					labeltype="numeric"/>
-					<LineChartAnalysis 
-					data={this.state.filters}
-					keyname="byTime"
-					sortHandler={this.numberSort}
+					range={5}
+					headerName="Ilmanpaine"
+					modifyFilter={this.modifyFilter} />
+				<LineChartAnalysis 
+					data={this.state.filters} 
+					keyname="weather.windspeed"
+					parse={this.parseFloat}
 					labelName="Kalojen määrä"
-					headerName="Tunti"
-					labeltype="numeric" />
-					<LineChartAnalysis 
-					data={this.state.filters}
-					keyname="windD"
-					sortHandler={this.directionSort}
-					labelName="Kalojen määrä"
-					headerName="Tuulensuunta" 
-					/>
+					range={2}
+					headerName="Tuulen nopeus"
+					modifyFilter={this.modifyFilter} />
 			</div>
 		}
 
 		if(!this.state.loading) {
 			component = <div>
-				<FilterSelection selections={this.state.selections} places={this.state.places} analysis={this.state.analysis} addFilter={this.addFilter} removeFilters={this.removeFilters} />
+				<FilterSelection selections={this.state.selections} places={this.state.places} draughts={this.state.draughts} addFilter={this.addFilter} removeFilters={this.removeFilters} />
 				{charts}
 			</div>
 		}

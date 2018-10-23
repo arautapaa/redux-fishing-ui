@@ -20,6 +20,7 @@ export default class CommonFilterSelection extends React.Component {
 	componentDidUpdate(prevProps) {
 		let prevamount = 0;
 		let newamount = 0;
+		let update = false;
 
 		if(prevProps.filters[prevProps.selectedType]) {
 			prevamount = prevProps.filters[prevProps.selectedType].length;
@@ -29,7 +30,11 @@ export default class CommonFilterSelection extends React.Component {
 			newamount = this.props.filters[this.props.selectedType].length;
 		}
 
-		if(this.props.selectedType == null && prevProps.selectedType != null || (this.props.type != this.props.selectedType && ( prevProps.selectedType != this.props.selectedType || prevamount != newamount))) {
+		if(prevProps.filters[prevProps.selectedType] != this.props.filters[this.props.selectedType]) {
+			update = true;
+		}
+
+		if(update || this.props.selectedType == null && prevProps.selectedType != null || (this.props.type != this.props.selectedType && ( prevProps.selectedType != this.props.selectedType || prevamount != newamount))) {
 
 			this.setState({
 				foundEntries : this.filterSelections()
@@ -38,20 +43,17 @@ export default class CommonFilterSelection extends React.Component {
 	}
 
 	filterSelections() {
-		let key = Object.keys(this.props.filteredData)[0];
-
 		let foundEntries = {};
 
-		Object.keys(this.props.filteredData[key]).forEach((draughtKey) => {
-			this.props.filteredData[key][draughtKey].forEach((draught) => {
-				const value = draught[this.props.type];
-				if(!foundEntries[value]) {
-					foundEntries[value] = 0;
-				}
+		this.props.filteredData.forEach((draught) => {
+			const value = draught[this.props.type];
+			if(!foundEntries[value]) {
+				foundEntries[value] = 0;
+			}
 
-				foundEntries[value] = foundEntries[value] + 1; 
-			});
+			foundEntries[value] = foundEntries[value] + 1; 
 		});
+
 
 		return foundEntries;
 	}
