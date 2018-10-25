@@ -86,6 +86,9 @@ export default class LineChartAnalysis extends React.Component {
 			const values = [];
 
 			for(let i = min; i < max; i += this.props.range) {
+				const offset = this.props.offset || 0;
+				const upbound = i + this.props.range - offset;
+
 				const matching = filter.filteredData.filter((draught) => {
 					const fields = this.props.keyname.split(".");
 					let value = draught;
@@ -99,14 +102,14 @@ export default class LineChartAnalysis extends React.Component {
 					if(this.props.range == 1) {
 						return value == i;
 					} else {
-						return value > i && value < i + this.props.range;
+						return value >= i && value < upbound;
 					}
 				});
 
 				let label = i;
 
 				if(this.props.range != 1) {
-					label += "-" + (i + this.props.range);
+					label += "-" + (upbound);
 				}
 
 				values.push({

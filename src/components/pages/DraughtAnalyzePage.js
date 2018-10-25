@@ -155,8 +155,19 @@ export default class DraughtAnalyzePage extends React.Component {
 					labelName="Kalojen määrä"
 					parse={this.parseFloat}
 					range={5}
+					offset={0.1}
 					headerName="Lämpötila" 
 					modifyFilter={this.modifyFilter}/>
+				<LineChartAnalysis 
+					data={this.state.filters} 
+					keyname="weight"
+					sortHandler={this.rangeSort} 
+					labelName="Kalojen määrä"
+					parse={this.parseFloat}
+					range={250}
+					offset={0.1}
+					headerName="Paino"
+					modifyFilter={this.modifyFilter} />
 				<LineChartAnalysis 
 					data={this.state.filters} 
 					keyname="weather.winddirection"
@@ -164,6 +175,7 @@ export default class DraughtAnalyzePage extends React.Component {
 					labelName="Kalojen määrä"
 					parse={this.parseFloat}
 					range={15}
+					offset={0.1}
 					headerName="Tuulensuunta"
 					modifyFilter={this.modifyFilter} />
 				<LineChartAnalysis 
@@ -180,6 +192,7 @@ export default class DraughtAnalyzePage extends React.Component {
 					parse={this.parseFloat}
 					labelName="Kalojen määrä"
 					range={5}
+					offset={0.1}
 					headerName="Ilmanpaine"
 					modifyFilter={this.modifyFilter} />
 				<LineChartAnalysis 
@@ -188,6 +201,7 @@ export default class DraughtAnalyzePage extends React.Component {
 					parse={this.parseFloat}
 					labelName="Kalojen määrä"
 					range={2}
+					offset={0.1}
 					headerName="Tuulen nopeus"
 					modifyFilter={this.modifyFilter} />
 			</div>
